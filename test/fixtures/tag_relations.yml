@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  exchange: one
+  tag: one
+  friend: one
+
+two:
+  exchange: two
+  tag: two
+  friend: two
