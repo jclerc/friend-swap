@@ -2,10 +2,10 @@
 
 one:
   is_active: false
-  friend_1: one
-  friend_2: one
+  friend1: one
+  friend2: one
 
 two:
   is_active: false
-  friend_1: two
-  friend_2: two
+  friend1: two
+  friend2: two

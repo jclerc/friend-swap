@@ -10,7 +10,55 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171208194347) do
+ActiveRecord::Schema.define(version: 20171209171030) do
+
+  create_table "cities", force: :cascade do |t|
+    t.string "name"
+    t.float "latitude"
+    t.float "longitude"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "exchanges", force: :cascade do |t|
+    t.boolean "is_active"
+    t.integer "friend1_id"
+    t.integer "friend2_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["friend1_id"], name: "index_exchanges_on_friend1_id"
+    t.index ["friend2_id"], name: "index_exchanges_on_friend2_id"
+  end
+
+  create_table "friends", force: :cascade do |t|
+    t.string "first_name"
+    t.date "birthday"
+    t.boolean "is_male"
+    t.string "description"
+    t.integer "city_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["city_id"], name: "index_friends_on_city_id"
+    t.index ["user_id"], name: "index_friends_on_user_id"
+  end
+
+  create_table "tag_relations", force: :cascade do |t|
+    t.integer "exchange_id"
+    t.integer "tag_id"
+    t.integer "friend_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["exchange_id"], name: "index_tag_relations_on_exchange_id"
+    t.index ["friend_id"], name: "index_tag_relations_on_friend_id"
+    t.index ["tag_id"], name: "index_tag_relations_on_tag_id"
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "label"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
