@@ -36,7 +36,7 @@ User.create!(email: 'test@test', password: 'test@test',
 users = []
 users_count.times do
   first_name = first_names.sample.parameterize
-  users << User.create!(email: "#{first_name}.#{rand(1..20)}@gmail.com",
+  users << User.create!(email: "#{first_name}.#{rand(1..999)}@gmail.com",
                         password: 'test@test',
                         password_confirmation: 'test@test',
                         first_name: first_name,
