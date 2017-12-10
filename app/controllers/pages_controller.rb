@@ -12,7 +12,7 @@ class PagesController < ApplicationController
     else
       @results = Friend.joins(:tag_relations)
                        .where('tag_relations.tag_id' => tag_ids)
-                       .group('tag_relations.friend_id')
+                       .group('friends.id')
                        .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)
                        .order('COUNT(*) DESC')
                        .limit(50)
