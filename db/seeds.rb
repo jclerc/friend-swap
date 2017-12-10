@@ -40,3 +40,6 @@ exchange_old = Exchange.create! is_active: false, friend1: friend_yvan, friend2:
 TagRelation.create! exchange: exchange_old, tag: tag_sport, friend: friend_bastien
 TagRelation.create! exchange: exchange_old, tag: tag_creative, friend: friend_yvan
 TagRelation.create! exchange: exchange_old, tag: tag_cook, friend: friend_yvan
+
+# Current exchange
+Exchange.create! is_active: true, friend1: friend_bastien, friend2: friend_yvan
