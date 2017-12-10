@@ -9,4 +9,16 @@ class Friend < ApplicationRecord
   def exchanges
     exchanges1 << exchanges2
   end
+
+  def tags_grouped
+    groups = Hash.new(0)
+    tags.each do |tag|
+      groups[tag] += 1
+    end
+    groups
+  end
+
+  def tags_sorted(asc = false)
+    tags_grouped.sort_by { |_, v| v }.tap { |o| o.reverse! unless asc }
+  end
 end
