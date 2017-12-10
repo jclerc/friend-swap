@@ -1,0 +1,26 @@
+<h1>Pages#search</h1>
+<p>Find me in app/views/pages/search.html.erb</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>First name</th>
+      <th>Birthday</th>
+      <th>Is male</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @results.each do |friend| %>
+      <tr>
+        <td><%= friend.first_name %></td>
+        <td><%= friend.birthday %></td>
+        <td><%= friend.is_male %></td>
+        <td><%= friend.description %></td>
+        <td><%= link_to 'Show', friend %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

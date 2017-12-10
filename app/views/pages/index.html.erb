@@ -8,3 +8,20 @@
     <%= link_to 'Compte', edit_user_registration_path %>
     <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
 <% end %>
+
+<h2>Search</h2>
+
+<%= form_tag(controller: "pages", action: "search", method: "post") do %>
+  <%=
+    collection_check_boxes(nil, :tag_ids, Tag.all, :id, :label_male) do |b|
+      b.label { b.check_box + ' ' + b.text }
+    end
+  %>
+  <hr>
+  <%=
+    collection_radio_buttons(nil, :city_id, City.all, :id, :name, {}, { required: true }) do |b|
+      b.label { b.radio_button + ' ' + b.text }
+    end
+  %>
+  <%= submit_tag("Search") %>
+<% end %>

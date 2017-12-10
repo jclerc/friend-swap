@@ -2,8 +2,9 @@ Rails.application.routes.draw do
   resources :friends
   resources :cities
   resources :tags
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  get 'pages/index'
+
+  post 'pages/search'
+  get 'pages/search' => redirect('/')
 
   root 'pages#index'
 
