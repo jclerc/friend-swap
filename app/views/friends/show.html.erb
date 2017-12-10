@@ -30,5 +30,10 @@
   <%= @friend.user %>
 </p>
 
+<p>
+  <strong>Tags:</strong>
+  <%= @friend.tags_sorted.map { |x| "#{x[0].method(@friend.is_male ? :label_male : :label_female).call} #{x[1]}" }.join ', ' %>
+</p>
+
 <%= link_to 'Edit', edit_friend_path(@friend) %> |
 <%= link_to 'Back', friends_path %>
