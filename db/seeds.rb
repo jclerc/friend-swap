@@ -77,11 +77,11 @@ date_max = Date.new(1990, 1, 1)
 friends_count.times do
   date = (date_min + (date_max - date_min) * rand).to_date
   male = [true, false].sample
-  first_name = [male ? first_names_male : first_names_female].sample
+  first_name = (male ? first_names_male : first_names_female).sample
   friends << Friend.create!(
     first_name: first_name,
     birthday: date,
-    is_male: [true, false].sample,
+    is_male: male,
     description: format(descriptions.sample, first_name),
     city: cities.sample,
     user: users.sample
