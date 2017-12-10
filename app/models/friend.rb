@@ -21,4 +21,8 @@ class Friend < ApplicationRecord
   def tags_sorted(asc = false)
     tags_grouped.sort_by { |_, v| v }.tap { |o| o.reverse! unless asc }
   end
+
+  def is_available?
+    !exchanges.any?(&:is_active)
+  end
 end
