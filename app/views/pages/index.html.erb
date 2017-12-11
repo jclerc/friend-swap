@@ -1,13 +1,69 @@
-<h1>Pages#index</h1>
-<p>Find me in app/views/pages/index.html.erb</p>
+<header>
+<div class="carousel slide" data-ride="carousel">
+  <div class="carousel-item active" style="background-image: url('../images/bg1.png')">
+    <div class="carousel-caption d-none d-md-block">
+      <h1>Vous voulez être à leur place ?</h1>
+      <p class="text-uppercase">Découvrez le bon copain</p>
+    </div>
+  </div>
+</div>
+</header>
 
-<% unless user_signed_in? %>
-    <%= link_to 'Inscription', new_user_registration_path %>
-    <%= link_to 'Identification', new_user_session_path %>
-<% else %>
-    <%= link_to 'Compte', edit_user_registration_path %>
-    <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
-<% end %>
+<div class="container">
+<h1 class="my-4">Explorer le bon copain</h1>
+<div class="row catrow">
+  <div class="col-lg-3 mb-3 cat">
+    <img src="img/sport.png" alt="">
+    <div class="legend">
+      <h3>#sportif</h3>
+      <span>1029 amis ont ce tag</span>
+    </div>
+  </div>
+  <div class="col-lg-3 mb-3 cat">
+    <img src="img/creatif.png" alt="">
+    <div class="legend">
+      <h3>#créatif</h3>
+      <span>1029 amis ont ce tag</span>
+    </div>
+  </div>
+  <div class="col-lg-3 mb-3 cat">
+    <img src="img/cook.png" alt="">
+    <div class="legend">
+      <h3>#cuisine</h3>
+      <span>1029 amis ont ce tag</span>
+    </div>
+  </div>
+  <div class="col-lg-3 mb-3 cat">
+    <img src="img/trips.png" alt="">
+    <div class="legend">
+      <h3>#voyages</h3>
+      <span>1029 amis ont ce tag</span>
+    </div>
+  </div>
+</div>
+<br>
+<h2>Nos amis du moment</h2>
+<div class="row catrow">
+  <% @most_traded.limit(8).each do |friend| %>
+    <div class="col-lg-3 mb-3 friend">
+      <img src="img/friend.png" alt="">
+      <div class="legend">
+        <span>PICARDIE - SOMME (80) </span>
+        <h4><%= friend.first_name %></h4>
+        <small class="text-muted">#créatif #sportif #drôle</small>
+        <p class="card-text"><%= friend.exchanges_count %></p>
+        <p class="card-text">
+          <%= link_to 'Voir', friend %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+</div>
+</div>
+<br>
+<footer class="py-5 bg-dark">
+<div class="container"></div>
+</footer>
 
 <hr>
 
@@ -43,11 +99,3 @@
 <hr>
 
 <h2>Most traded</h2>
-
-<% @most_traded.limit(20).each do |friend| %>
-  <p>
-    <%= friend.first_name %>,
-    <%= friend.exchanges_count %>,
-    <td><%= link_to 'Show', friend %></td>
-  </p>
-<% end %>
