@@ -12,34 +12,20 @@
 <div class="container">
 <h1 class="my-4">Explorer le bon copain</h1>
 <div class="row catrow">
-  <div class="col-lg-3 mb-3 cat">
-    <img src="img/sport.png" alt="">
-    <div class="legend">
-      <h3>#sportif</h3>
-      <span>1029 amis ont ce tag</span>
+  <% @tags_by_city.each do |tag| %>
+    <div class="col-lg-3 mb-3 cat">
+      <img src="img/sport.png" alt="">
+      <div class="legend">
+        <h3>
+          <%= link_to "##{tag.label_male}", search_get_path(
+            city_name: tag.city_name.parameterize, city: tag.city_id,
+            tag_name: tag.label_male.parameterize, tag: tag.id
+          ) %>
+        </h3>
+        <span><%= "#{tag.count}" %> amis ont ce tag</span>
+      </div>
     </div>
-  </div>
-  <div class="col-lg-3 mb-3 cat">
-    <img src="img/creatif.png" alt="">
-    <div class="legend">
-      <h3>#créatif</h3>
-      <span>1029 amis ont ce tag</span>
-    </div>
-  </div>
-  <div class="col-lg-3 mb-3 cat">
-    <img src="img/cook.png" alt="">
-    <div class="legend">
-      <h3>#cuisine</h3>
-      <span>1029 amis ont ce tag</span>
-    </div>
-  </div>
-  <div class="col-lg-3 mb-3 cat">
-    <img src="img/trips.png" alt="">
-    <div class="legend">
-      <h3>#voyages</h3>
-      <span>1029 amis ont ce tag</span>
-    </div>
-  </div>
+  <% end %>
 </div>
 <br>
 <h2>Nos amis du moment</h2>
@@ -84,18 +70,3 @@
   %>
   <%= submit_tag("Search") %>
 <% end %>
-
-<hr>
-
-<h2>Best tags by city</h2>
-
-<% @tags_by_city.each do |tag| %>
-  <%= link_to "#{tag.label_male} (#{tag.count}) - #{tag.city_name}", search_get_path(
-    city_name: tag.city_name.parameterize, city: tag.city_id,
-    tag_name: tag.label_male.parameterize, tag: tag.id
-  ) %>
-<% end %>
-
-<hr>
-
-<h2>Most traded</h2>
