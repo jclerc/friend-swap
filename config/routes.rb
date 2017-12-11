@@ -5,7 +5,7 @@ Rails.application.routes.draw do
 
   get 'search/(:city_name).(:city)/(:tag_name).(:tag)' => 'pages#search', as: 'search_get'
   get 'search' => redirect('/')
-  post 'search' => 'pages#search'
+  post 'search' => 'pages#search', as: 'search_post'
 
   root 'pages#index'
 

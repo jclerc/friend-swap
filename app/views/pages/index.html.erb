@@ -13,7 +13,8 @@
 
 <h2>Search</h2>
 
-<%= form_tag(controller: "pages", action: "search") do %>
+<%# search_post %>
+<%= form_tag(search_post_path) do %>
   <%=
     collection_check_boxes(nil, :tags, Tag.all, :id, :label_male) do |b|
       b.label { b.check_box + ' ' + b.text }

@@ -22,7 +22,7 @@ class PagesController < ApplicationController
     if city.blank?
       redirect_to root_path
     elsif tag_ids.blank?
-      @results = Friend.order(:updated_at).limit(50)
+      @results = Friend.order(:updated_at).where(city: city).limit(50)
     else
       @results = Friend.joins(:tag_relations)
                        .where('tag_relations.tag_id' => tag_ids)
