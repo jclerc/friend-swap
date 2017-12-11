@@ -35,8 +35,8 @@ User.create!(email: 'test@test', password: 'test@test',
 
 users = []
 users_count.times do
-  first_name = first_names.sample.parameterize
-  users << User.create!(email: "#{first_name}.#{rand(1..999)}@gmail.com",
+  first_name = first_names.sample
+  users << User.create!(email: "#{first_name.parameterize}.#{rand(1..999)}@gmail.com",
                         password: 'test@test',
                         password_confirmation: 'test@test',
                         first_name: first_name,
@@ -98,11 +98,11 @@ friends.each do |friend|
 end
 
 # Old exchanges
-exchanges_created = (friends_count * 0.75 * (1 + 5) / 2).floor
+exchanges_created = (friends_count * 0.5 * (1 + 5) / 2).floor
 tags_created = exchanges_created * (2 + 5)
 puts "Creating ~#{exchanges_created} exchanges"\
      ", linked to ~#{tags_created} tags..."
-friends.sample(friends_count * 0.75).each do |friend|
+friends.sample(friends_count * 0.5).each do |friend|
   rand(1..5).times do
     other_friend = friends.sample(2).detect { |other| other != friend }
     exchange_old = Exchange.create! is_active: false,
@@ -117,8 +117,8 @@ friends.sample(friends_count * 0.75).each do |friend|
   end
 end
 
-# Current exchange
-puts "Creating #{(friends.size / 4).floor} exchanges..."
+# Current exchanges
+puts "Creating #{(friends.size / 4).floor} active exchanges..."
 friends.sample(friends.size / 2).each_slice(2).each do |a, b|
   Exchange.create! is_active: true, friend1: a, friend2: b if b
 end
