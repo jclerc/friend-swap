@@ -3,8 +3,9 @@ Rails.application.routes.draw do
   resources :cities
   resources :tags
 
-  post 'pages/search'
-  get 'pages/search'
+  get 'search/(:city_name).(:city)/(:tag_name).(:tag)' => 'pages#search', as: 'search_get'
+  get 'search' => redirect('/')
+  post 'search' => 'pages#search'
 
   root 'pages#index'
 
