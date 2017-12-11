@@ -1,7 +1,12 @@
 class PagesController < ApplicationController
   def index
-    @tags = Tag.all.limit(4)
     @city = City.first
+    @tags_by_city = Tag.select('tags.*, cities.name as city_name, cities.id as city_id, COUNT(DISTINCT friends.id) as count')
+                       .joins(:tag_relations)
+                       .joins(:friends)
+                       .joins('INNER JOIN cities ON cities.id = friends.city_id')
+                       .group('friends.city_id')
+                       .order('count DESC')
     @most_traded = Friend.select('friends.*, COUNT(DISTINCT tag_relations.exchange_id) as exchanges_count')
                          .joins(:tag_relations)
                          .group(:id)

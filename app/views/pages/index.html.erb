@@ -30,8 +30,10 @@
 
 <hr>
 
-<% @tags.each do |tag| %>
-  <%= link_to tag.label_male, search_get_path(
+<h2>Best tags by city</h2>
+
+<% @tags_by_city.limit(4).each do |tag| %>
+  <%= link_to "#{tag.label_male} (#{tag.count}) - #{tag.city_name}", search_get_path(
     city_name: @city.name.parameterize, city: @city.id,
     tag_name: tag.label_male.parameterize, tag: tag.id
   ) %>

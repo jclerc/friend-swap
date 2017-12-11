@@ -44,11 +44,12 @@ users_count.times do
 end
 
 # Cities
-puts 'Creating 3 cities...'
+puts 'Creating 4 cities...'
 cities = []
 cities << City.create!(name: 'Paris', latitude: 48.86471, longitude: 2.34901)
 cities << City.create!(name: 'Lyon', latitude: 45.74846, longitude: 4.84671)
 cities << City.create!(name: 'Toulouse', latitude: 43.60426, longitude: 1.44367)
+cities << City.create!(name: 'Bordeaux', latitude: 44.83615, longitude: -0.58081)
 
 # Tags
 puts 'Creating 15 tags...'
