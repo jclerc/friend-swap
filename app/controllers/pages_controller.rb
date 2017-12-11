@@ -4,6 +4,7 @@ class PagesController < ApplicationController
     @most_traded = Friend.select('friends.*, COUNT(DISTINCT tag_relations.exchange_id) as exchanges_count')
                          .joins(:tag_relations)
                          .group(:id)
+                         .where(disabled: false)
                          .order('exchanges_count DESC')
 
     # NOTE: here we are quering then filtering results by ourselves...
@@ -14,6 +15,7 @@ class PagesController < ApplicationController
                       .joins(:tag_relations)
                       .joins(:friends)
                       .joins('INNER JOIN cities ON cities.id = friends.city_id')
+                      .where('friends.disabled' => false)
                       .group('cities.id, tags.id')
     hash = Hash.new(0)
     tags_by_city.each do |tag|
@@ -33,6 +35,7 @@ class PagesController < ApplicationController
     #                      .joins(:tag_relations)
     #                      .joins(:friends)
     #                      .joins('INNER JOIN cities ON cities.id = friends.city_id')
+    #                      .where('friends.disabled' => false)
     #                      .group('cities.id, tags.id')
     #                   )
     #                   .group('city_id')
@@ -48,11 +51,12 @@ class PagesController < ApplicationController
     if city.blank?
       redirect_to root_path
     elsif tag_ids.blank?
-      @results = Friend.order(:updated_at).where(city: city)
+      @results = Friend.order(:updated_at).where(city: city).where(disabled: false)
     else
       @results = Friend.joins(:tag_relations)
                        .where('tag_relations.tag_id' => tag_ids)
                        .where(city: city)
+                       .where(disabled: false)
                        .group('friends.id')
                        .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)
                        .order('COUNT(*) DESC')
