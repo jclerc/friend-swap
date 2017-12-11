@@ -1,18 +1,18 @@
 <p id="notice"><%= notice %></p>
 
 <p>
-  <strong>First name:</strong>
+  <strong>Prénom:</strong>
   <%= @friend.first_name %>
 </p>
 
 <p>
-  <strong>Birthday:</strong>
+  <strong>Anniversaire:</strong>
   <%= @friend.birthday %>
 </p>
 
 <p>
-  <strong>Is male:</strong>
-  <%= @friend.is_male %>
+  <strong>Genre:</strong>
+  <%= @friend.is_male ? 'Homme' : 'Femme' %>
 </p>
 
 <p>
@@ -21,19 +21,29 @@
 </p>
 
 <p>
-  <strong>City:</strong>
+  <strong>Ville:</strong>
   <%= @friend.city.name %>
 </p>
 
 <p>
-  <strong>User:</strong>
-  <%= @friend.user.first_name %>
+  <strong>Tags:</strong>
+  <%= @friend.tags_sorted.map { |x| "#{x[0].label @friend} #{x[1]}" }.join ', ' %>
 </p>
 
 <p>
-  <strong>Tags:</strong>
-  <%= @friend.tags_sorted.map { |x| "#{x[0].method(@friend.is_male ? :label_male : :label_female).call} #{x[1]}" }.join ', ' %>
+  <strong>Échanges:</strong>
+  <%= @friend.exchanges.size %>
 </p>
 
-<%= link_to 'Edit', edit_friend_path(@friend) %> |
-<%= link_to 'Back', friends_path %>
+
+<p>
+  <strong>Disponible:</strong>
+  <%= @friend.available? %>
+</p>
+
+<% if current_user == @friend.user || current_user.try(:is_admin) %>
+  <%= link_to 'Modifier', edit_friend_path(@friend) %> |
+  <%= link_to 'Mes annonces', friends_path %> |
+<% end %>
+
+<%= link_to 'Accueil', root_path %>

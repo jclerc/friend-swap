@@ -3,6 +3,12 @@ class FriendsController < ApplicationController
   before_action :authenticate_user!, except: [:show]
   before_action :require_owner, only: %i[edit update]
 
+  # GET /friends
+  # GET /friends.json
+  def index
+    @friends = Friend.where(user: current_user)
+  end
+
   # GET /friends/1
   # GET /friends/1.json
   def show; end

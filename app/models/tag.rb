@@ -5,6 +5,11 @@ class Tag < ApplicationRecord
   has_many :tag_relations
   has_many :friends, through: :tag_relations
 
+  def label test
+    return test.is_male ? label_male : label_female if test.is_a? Friend
+    test ? label_male : label_female
+  end
+
   def friends_grouped
     groups = Hash.new(0)
     friends.each do |friend|

@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Mes annonces</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Prénom</th>
+      <th>Genre</th>
+      <th>Description</th>
+      <th>Ville</th>
+      <th>Échanges</th>
+      <th>Meilleur tag</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @friends.each do |friend| %>
+      <tr>
+        <td><%= friend.first_name %></td>
+        <td><%= friend.is_male ? 'Homme' : 'Femme' %></td>
+        <td><%= truncate(friend.description, length: 30) %></td>
+        <td><%= friend.city.name %></td>
+        <td><%= friend.exchanges.size %></td>
+        <td><%= friend.tags_sorted.first.first.label friend %></td>
+        <td><%= link_to 'Voir', friend %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Ajouter un copain', new_friend_path %>
