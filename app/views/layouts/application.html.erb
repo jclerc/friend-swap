@@ -40,8 +40,17 @@
     </ul>
     <form class="form-inline my-2 my-lg-0">
       <button class="btn btn-secondary" style="margin-right:.5rem;" type="button">Rechercher</button>
-      <button class="btn btn-secondary" style="margin-right:.5rem;" type="button">Inscription</button>
-      <button class="btn btn-secondary" style="margin-right:.5rem;" type="button">Identification</button>
+      <% unless user_signed_in? %>
+        <button class="btn btn-secondary" style="margin-right:.5rem;" type="button">
+          <%= link_to 'Inscription', new_user_registration_path %>
+        </button>
+        <button class="btn btn-secondary" style="margin-right:.5rem;" type="button">
+          <%= link_to 'Identification', new_user_session_path %>
+        </button>
+      <% else %>
+        <%= link_to 'Compte', edit_user_registration_path %>
+        <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
+      <% end %>
     </form>
   </div>
 </nav>
