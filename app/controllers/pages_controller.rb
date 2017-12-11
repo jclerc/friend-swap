@@ -22,7 +22,7 @@ class PagesController < ApplicationController
     if city.blank?
       redirect_to root_path
     elsif tag_ids.blank?
-      @results = Friend.order(:updated_at).where(city: city).limit(50)
+      @results = Friend.order(:updated_at).where(city: city)
     else
       @results = Friend.joins(:tag_relations)
                        .where('tag_relations.tag_id' => tag_ids)
@@ -30,7 +30,6 @@ class PagesController < ApplicationController
                        .group('friends.id')
                        .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)
                        .order('COUNT(*) DESC')
-                       .limit(50)
     end
   end
 end
