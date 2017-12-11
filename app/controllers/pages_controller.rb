@@ -2,6 +2,10 @@ class PagesController < ApplicationController
   def index
     @tags = Tag.all.limit(4)
     @city = City.first
+    @most_traded = Friend.select('friends.*, COUNT(DISTINCT tag_relations.exchange_id) as exchanges_count')
+                         .joins(:tag_relations)
+                         .group(:id)
+                         .order('exchanges_count DESC')
   end
 
   def search

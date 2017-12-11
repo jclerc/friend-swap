@@ -31,8 +31,20 @@
 <hr>
 
 <% @tags.each do |tag| %>
-    <%= link_to tag.label_male, search_get_path(
-        city_name: @city.name.parameterize, city: @city.id,
-        tag_name: tag.label_male.parameterize, tag: tag.id
-    ) %>
+  <%= link_to tag.label_male, search_get_path(
+    city_name: @city.name.parameterize, city: @city.id,
+    tag_name: tag.label_male.parameterize, tag: tag.id
+  ) %>
+<% end %>
+
+<hr>
+
+<h2>Most traded</h2>
+
+<% @most_traded.limit(20).each do |friend| %>
+  <p>
+    <%= friend.first_name %>,
+    <%= friend.exchanges_count %>,
+    <td><%= link_to 'Show', friend %></td>
+  </p>
 <% end %>
