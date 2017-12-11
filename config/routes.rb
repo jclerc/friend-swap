@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :tags
 
   post 'pages/search'
-  get 'pages/search' => redirect('/')
+  get 'pages/search'
 
   root 'pages#index'
 

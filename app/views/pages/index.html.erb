@@ -9,19 +9,28 @@
     <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
 <% end %>
 
+<hr>
+
 <h2>Search</h2>
 
 <%= form_tag(controller: "pages", action: "search", method: "post") do %>
   <%=
-    collection_check_boxes(nil, :tag_ids, Tag.all, :id, :label_male) do |b|
+    collection_check_boxes(nil, :tags, Tag.all, :id, :label_male) do |b|
       b.label { b.check_box + ' ' + b.text }
     end
   %>
-  <hr>
+  <br>
   <%=
-    collection_radio_buttons(nil, :city_id, City.all, :id, :name, {}, { required: true }) do |b|
+    collection_radio_buttons(nil, :city, City.all, :id, :name, {}, { required: true }) do |b|
       b.label { b.radio_button + ' ' + b.text }
     end
   %>
   <%= submit_tag("Search") %>
 <% end %>
+
+<hr>
+
+<% @tags.each do |tag| %>
+    <%= link_to tag.label_male, pages_search_path(tag: tag.id, city: @city.id) %>
+<% end %>
+
