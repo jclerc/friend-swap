@@ -71,7 +71,7 @@ tags << Tag.create!(label_male: 'Méchant', label_female: 'Méchante')
 tags << Tag.create!(label_male: 'Lent', label_female: 'Lente')
 
 # Friends
-puts "Creating #{friends_count} friends..."
+puts "Creating #{friends_count} friends, linked to ~#{friends_count * 3} tags..."
 friends = []
 date_min = Date.new(2000, 12, 12)
 date_max = Date.new(1990, 1, 1)
@@ -85,16 +85,9 @@ friends_count.times do
     is_male: male,
     description: format(descriptions.sample, first_name),
     city: cities.sample,
-    user: users.sample
+    user: users.sample,
+    tag_relations_attributes: (tags.sample(rand(2..4)).map { |tag| { tag_id: tag.id } })
   )
-end
-
-# First tags
-puts "Creating ~#{friends.size * 3} tag relations..."
-friends.each do |friend|
-  tags.sample(rand(2..4)).each do |tag|
-    TagRelation.create! exchange: nil, tag: tag, friend: friend
-  end
 end
 
 # Old exchanges
