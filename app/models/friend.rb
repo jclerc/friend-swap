@@ -6,8 +6,9 @@ class Friend < ApplicationRecord
   has_many :tag_relations, inverse_of: :friend
   has_many :tags, through: :tag_relations
 
-  def exchanges
-    exchanges1 << exchanges2
+  def exchanges(include_active = false)
+    return Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)) if include_active
+    Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)).where(is_active: false)
   end
 
   def tags_grouped
@@ -23,7 +24,7 @@ class Friend < ApplicationRecord
   end
 
   def available?
-    exchanges.none?(&:is_active)
+    exchanges(include_active: true).where(is_active: true).none?
   end
 
   # VALIDATION
