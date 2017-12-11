@@ -1,6 +1,6 @@
-<h1>Editing Friend</h1>
+<h1>Modifier un copain</h1>
 
-<%= render 'form', friend: @friend %>
+<%= render 'form', friend: @friend, mode: :edit %>
 
-<%= link_to 'Show', @friend %> |
-<%= link_to 'Back', friends_path %>
+<%= link_to "Aller à l'annonce", @friend %> |
+<%= link_to 'Annuler', root_path %>

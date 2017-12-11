@@ -1,4 +1,7 @@
 class Tag < ApplicationRecord
+  MIN_ASSOC = 2
+  MAX_ASSOC = 5
+
   has_many :tag_relations
   has_many :friends, through: :tag_relations
 

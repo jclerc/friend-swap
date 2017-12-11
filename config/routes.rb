@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  resources :friends
+  resources :friends, except: %i[index destroy]
+  get 'friends' => redirect('/')
   resources :cities
   resources :tags
 

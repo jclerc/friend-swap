@@ -1,7 +1,7 @@
 <%= form_with(model: friend, local: true) do |form| %>
   <% if friend.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(friend.errors.count, "error") %> prohibited this friend from being saved:</h2>
+      <h2><%= pluralize(friend.errors.count, "erreur") %> à corriger:</h2>
 
       <ul>
       <% friend.errors.full_messages.each do |message| %>
@@ -11,34 +11,61 @@
     </div>
   <% end %>
 
-  <div class="field">
-    <%= form.label :first_name %>
-    <%= form.text_field :first_name, id: :friend_first_name %>
-  </div>
+  <% if mode == :new %>
 
-  <div class="field">
-    <%= form.label :birthday %>
-    <%= form.date_select :birthday, id: :friend_birthday %>
-  </div>
+    <div class="field">
+      <%= form.label :first_name, "Prénom" %>
+      <%= form.text_field :first_name, id: :friend_first_name %>
+    </div>
 
-  <div class="field">
-    <%= form.label :is_male %>
-    <%= form.check_box :is_male, id: :friend_is_male %>
-  </div>
+    <div class="field">
+      <%= form.label :birthday, "Date de naissance" %>
+      <%= form.date_select :birthday, {
+        :start_year => 13.years.ago.year,
+        :end_year => 90.years.ago.year
+      }, { id: :friend_birthday }
+      %>
+    </div>
+
+    <div>
+      <%= form.label :is_male, "Homme", value: true %>
+      <%= form.radio_button :is_male, true, :checked => true, :value => true %>
+    </div>
+
+    <div>
+      <%= form.label :is_male, "Femme", value: false %>
+      <%= form.radio_button :is_male, false, :value => false %>
+    </div>
+
+    <div class="field">
+      <%= form.label :city_id, "Ville" %>
+      <%= form.select :city_id, options_for_select(City.all.map { |c| [c.name, c.id] }) %>
+    </div>
+
+
+    <div class="field">
+      <%= form.label :tags, "Tags" %>
+      <%=
+        collection_check_boxes(nil, :tag_id, Tag.all, :id, :label_male) do |b|
+          b.label {
+            b.check_box(name: 'friend[tag_relations_attributes][][tag_id]') + ' ' + b.text
+          }
+        end
+      %>
+    </div>
+
+  <% else %>
+
+    <div class="field">
+      <%= form.label :disabled, "Désactivé" %>
+      <%= form.check_box :disabled, id: :friend_disabled %>
+    </div>
+
+  <% end %>
 
   <div class="field">
     <%= form.label :description %>
-    <%= form.text_field :description, id: :friend_description %>
-  </div>
-
-  <div class="field">
-    <%= form.label :city_id %>
-    <%= form.text_field :city_id, id: :friend_city_id %>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id %>
-    <%= form.text_field :user_id, id: :friend_user_id %>
+    <%= form.text_area :description, id: :friend_description %>
   </div>
 
   <div class="actions">
