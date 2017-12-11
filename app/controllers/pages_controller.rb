@@ -21,7 +21,7 @@ class PagesController < ApplicationController
     tags_by_city.each do |tag|
       hash[tag.city_id] = [tag.count, tag] if tag.count > hash[tag.city_id][0]
     end
-    @tags_by_city = hash.values.map { |entry| entry[1] }
+    @tags_by_city = hash.values.sort_by { |entry| entry[0] }.reverse.map { |entry| entry[1] }
 
     # ... as the following query works in SQLite, but not in PostgreSQL
     # @tags_by_city = Tag.select('id, label_male, city_name, city_id, MAX(friends_count) as count')
