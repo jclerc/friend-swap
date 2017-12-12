@@ -41,6 +41,11 @@
   <%= @friend.available? %>
 </p>
 
+<p>
+  <em>Ajouté par:</em>
+  <%= @friend.user.email %>
+</p>
+
 <% if @can_exchange %>
   <p>
     <strong>Échanger contre: </strong>

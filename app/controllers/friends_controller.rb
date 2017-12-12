@@ -12,8 +12,12 @@ class FriendsController < ApplicationController
   # GET /friends/1
   # GET /friends/1.json
   def show
-    @friends_to_exchange = @friend.available? && @friend.user != current_user && current_user&.friends&.where(disabled: false)
-    @can_exchange = @friends_to_exchange.try(:any?)
+    if @friend.available? && @friend.user != current_user && current_user
+      @friends_to_exchange = current_user.friends.select { |f| f.available? }
+    else
+      @friends_to_exchange = Friend.none
+    end
+    @can_exchange = @friends_to_exchange.any?
   end
 
   # GET /friends/new
