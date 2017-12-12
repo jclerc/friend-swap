@@ -7,9 +7,9 @@ Rails.application.routes.draw do
   get 'search' => redirect('/')
   post 'search' => 'pages#search', as: 'search_post'
 
-  get 'exchanges' => 'exchanges#index'
-  get 'exchanges/new/(:friend_id).(:other_id)' => 'exchanges#new'
-  get 'exchanges/finish/(:exchange_id)' => 'exchanges#finish'
+  get 'exchanges' => 'exchanges#index', as: 'exchanges'
+  get 'exchanges/new/(:friend_id).(:other_id)' => 'exchanges#new', as: 'exchanges_new'
+  get 'exchanges/finish/(:exchange_id)' => 'exchanges#finish', as: 'exchanges_finish'
 
   devise_for :users, path: 'auth', path_names: {
     sign_up: 'register',

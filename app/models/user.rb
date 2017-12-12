@@ -6,4 +6,6 @@ class User < ApplicationRecord
 
   validates :first_name, presence: true, length: { maximum: 30 }
   validates :phone, presence: true, length: { minimum: 10, maximum: 10 }
+
+  has_many :friends
 end

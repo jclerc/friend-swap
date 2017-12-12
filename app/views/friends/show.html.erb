@@ -41,6 +41,18 @@
   <%= @friend.available? %>
 </p>
 
+<% if @can_exchange %>
+  <p>
+    <strong>Échanger contre: </strong>
+    <% @friends_to_exchange.each do |f| %>
+      <%= link_to "#{f.first_name}", exchanges_new_path(
+        friend_id: f.id,
+        other_id: @friend.id
+      ) %>
+    <% end %>
+  </p>
+<% end %>
+
 <% if current_user == @friend.user || current_user.try(:is_admin) %>
   <%= link_to 'Modifier', edit_friend_path(@friend) %> |
   <%= link_to 'Mes annonces', friends_path %> |
