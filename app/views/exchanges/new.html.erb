@@ -1,7 +1,22 @@
 <h1>Nouvel échange</h1>
 
-Échanger:
-<%= @friend.first_name %>
+<% if @exchange.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(@exchange.errors.count, "erreur") %> à corriger:</h2>
 
-contre
-<%= @other.first_name %>
+    <ul>
+    <% @exchange.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+    </ul>
+</div>
+<% end %>
+
+<%= form_tag(exchanges_create_path) do %>
+  Échanger: <%= @friend.first_name %> contre <%= @other.first_name %> ?
+
+  <%= hidden_field(:exchange, :friend1_id, :value => @friend.id) %>
+  <%= hidden_field(:exchange, :friend2_id, :value => @other.id) %>
+
+  <%= submit_tag "C'est parti" %>
+<% end %>

@@ -1,4 +1,6 @@
 class ExchangesController < ApplicationController
+  include ExchangesHelper
+
   before_action :set_exchange, only: %i[finish]
   before_action :authenticate_user!
   before_action :require_owner, only: %i[finish]
@@ -16,12 +18,24 @@ class ExchangesController < ApplicationController
   end
 
   def new
+    # From get params
     @friend = Friend.find(params[:friend_id])
     @other = Friend.find(params[:other_id])
-    return redirect_to root_path unless @friend.user == current_user &&
-                                        @friend.available? &&
-                                        @other.user != current_user &&
-                                        @other.available?
+    check_exchange_author
+    @exchange = Exchange.new
+  end
+
+  def create
+    # From post params
+    @friend = Friend.find_by_id(params[:exchange][:friend1_id])
+    @other = Friend.find_by_id(params[:exchange][:friend2_id])
+    check_exchange_author
+    @exchange = Exchange.new(exchange_params_create)
+    if @exchange.save
+      redirect_to exchanges_url, notice: 'Ajout avec succès !'
+    else
+      render :new
+    end
   end
 
   def finish
@@ -35,8 +49,22 @@ class ExchangesController < ApplicationController
     @exchange = Exchange.find(params[:id])
   end
 
+  def check_exchange_author
+    return redirect_to root_path unless @friend.user == current_user &&
+                                        @friend.available? &&
+                                        @other.user != current_user &&
+                                        @other.available?
+  end
+
   def require_owner
     # should not happen, so an alert is not necessary
     redirect_to root_path if @exchange.friends.none? { |f| f.user == current_user }
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def exchange_params_create
+    params.require(:exchange)
+          .permit(:friend1_id, :friend2_id)
+          .merge(is_active: true)
   end
 end
