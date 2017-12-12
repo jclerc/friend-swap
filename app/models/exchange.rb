@@ -13,15 +13,20 @@ class Exchange < ApplicationRecord
   validates :friend2_id, presence: true
 
   validate :check_different
-  validate :check_availables
   validate :check_owner
+  validate :check_available, on: :create
+  validate :check_unavailable, on: :update
 
   def check_different
     errors.add(:base, "Impossible d'échanger un ami contre lui même") unless friend1.id != friend2.id
   end
 
-  def check_availables
-    errors.add(:base, "Un des amis n'est pas disponible") unless friend1.available? and friend2.available?
+  def check_available
+    errors.add(:base, "Un des amis n'est pas disponible") unless friend1.available? && friend2.available?
+  end
+
+  def check_unavailable
+    errors.add(:base, "L'échange est déjà terminé") if is_active || friend1.available? || friend2.available?
   end
 
   def check_owner

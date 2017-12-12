@@ -23,7 +23,7 @@
         <td><%= link_to friends.first.first_name, friends.first %></td>
         <td><%= link_to friends.second.first_name, friends.second %></td>
         <td><%= exchange.created_at %></td>
-        <td><%= link_to 'Rendre', exchanges_finish_path(id: exchange.id) %></td>
+        <td><%= link_to 'Rendre', exchanges_get_finish_path(id: exchange.id) %></td>
       </tr>
     <% end %>
   </tbody>

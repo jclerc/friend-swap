@@ -2,8 +2,21 @@
 
 <% friend, other = distinct_friends @exchange %>
 
-Reprendre
-<%= friend.first_name %>
+Reprendre <%= friend.first_name %> et renvoyer <%= other.first_name %> ?
 
-et renvoyer
-<%= other.first_name %>
+<% if @exchange.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(@exchange.errors.count, "erreur") %> à corriger:</h2>
+
+    <ul>
+    <% @exchange.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+    </ul>
+</div>
+<% end %>
+
+<%= form_tag(exchanges_post_finish_path) do %>
+  <%= hidden_field(nil, :id, :value => @exchange.id) %>
+  <%= submit_tag "C'est terminé" %>
+<% end %>

@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   get 'exchanges' => 'exchanges#index', as: 'exchanges'
   get 'exchanges/new/(:friend_id).(:other_id)' => 'exchanges#new', as: 'exchanges_new'
   post 'exchanges/create' => 'exchanges#create', as: 'exchanges_create'
-  get 'exchanges/finish/(:id)' => 'exchanges#finish', as: 'exchanges_finish'
+  get 'exchanges/finish/(:id)' => 'exchanges#get_finish', as: 'exchanges_get_finish'
+  post 'exchanges/finish/(:id)' => 'exchanges#post_finish', as: 'exchanges_post_finish'
 
   devise_for :users, path: 'auth', path_names: {
     sign_up: 'register',

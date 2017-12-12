@@ -1,9 +1,8 @@
 class ExchangesController < ApplicationController
   include ExchangesHelper
 
-  before_action :set_exchange, only: %i[finish]
+  before_action :check_and_set_exchange, only: %i[get_finish post_finish]
   before_action :authenticate_user!
-  before_action :require_owner, only: %i[finish]
 
   def index
     friends = current_user.friends
@@ -38,15 +37,25 @@ class ExchangesController < ApplicationController
     end
   end
 
-  def finish
-    return redirect_to root_path unless @exchange.is_active
+  def get_finish
+    render :finish
+  end
+
+  def post_finish
+    if @exchange.update(is_active: false)
+      redirect_to :exchanges, notice: 'Échange terminé !'
+    else
+      render :finish
+    end
   end
 
   private
 
   # Use callbacks to share common setup or constraints between actions.
-  def set_exchange
+  def check_and_set_exchange
     @exchange = Exchange.find(params[:id])
+    # should not happen, so an alert is not necessary
+    return redirect_to root_path unless @exchange.is_active && @exchange.friends.count { |f| f.user == current_user } == 1
   end
 
   def check_exchange_author
@@ -54,11 +63,6 @@ class ExchangesController < ApplicationController
                                         @friend.available? &&
                                         @other.user != current_user &&
                                         @other.available?
-  end
-
-  def require_owner
-    # should not happen, so an alert is not necessary
-    redirect_to root_path if @exchange.friends.none? { |f| f.user == current_user }
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.
