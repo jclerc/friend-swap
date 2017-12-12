@@ -32,12 +32,12 @@
 <div class="row catrow">
   <% @most_traded.limit(8).each do |friend| %>
     <div class="col-lg-3 mb-3 friend">
-      <img src="img/friend.png" alt="">
+      <img class="img-fluid" src="https://i.imgur.com/5Jou7gE.jpg" alt="">
       <div class="legend">
-        <span>PICARDIE - SOMME (80) </span>
+        <div>PICARDIE - SOMME (80)</div>
         <h4><%= friend.first_name %></h4>
         <small class="text-muted">#créatif #sportif #drôle</small>
-        <p class="card-text"><%= friend.exchanges_count %></p>
+        <p class="card-text"><%= friend.exchanges_count %> échanges</p>
         <p class="card-text">
           <%= link_to 'Voir', friend %>
         </p>
@@ -50,23 +50,3 @@
 <footer class="py-5 bg-dark">
 <div class="container"></div>
 </footer>
-
-<hr>
-
-<h2>Search</h2>
-
-<%# search_post %>
-<%= form_tag(search_post_path) do %>
-  <%=
-    collection_check_boxes(nil, :tags, Tag.all, :id, :label_male) do |b|
-      b.label { b.check_box + ' ' + b.text }
-    end
-  %>
-  <br>
-  <%=
-    collection_radio_buttons(nil, :city, City.all, :id, :name, {}, { required: true }) do |b|
-      b.label { b.radio_button + ' ' + b.text }
-    end
-  %>
-  <%= submit_tag("Search") %>
-<% end %>
