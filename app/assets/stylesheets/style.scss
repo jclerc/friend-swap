@@ -1,0 +1,91 @@
+.searchTags label {
+  margin-right: 2rem;
+}
+
+.carousel-item {
+  height: 65vh;
+  min-height: 300px;
+  background: no-repeat center center scroll;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.portfolio-item {
+  margin-bottom: 30px;
+}
+
+.dropdown {
+  list-style: none;
+}
+
+.carousel-caption {
+  position: inherit;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  text-align: left;
+}
+
+.carousel-item {
+  display: flex !important;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.carousel-caption {
+  margin-left: 2rem;
+  font-weight: light;
+}
+
+.carousel-caption h1 {
+  font-weight: bold;
+  font-size: 3rem;
+}
+
+.catrow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.cat {
+  overflow: hidden;
+}
+
+.cat .legend {
+  position: absolute;
+  margin: 2rem;
+  bottom: 0;
+  color: #fff;
+}
+
+.cat .legend h3 {
+  font-weight: bold;
+}
+.cat .legend span {
+  font-weight: light;
+}
+
+.friend {
+  overflow: hidden;
+}
+
+.card {
+  border: 0;
+}
+
+.card-body {
+  padding: 0;
+}
+
+.friend h4 {
+  display: inline-block;
+  margin: 0;
+}
+
+.card-img-top {
+  border-radius: 0;
+}
