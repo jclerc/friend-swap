@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Noter l'échange</h1>
+
+<% if @exchange.errors.any? %>
+<div id="error_explanation">
+    <h2><%= pluralize(@exchange.errors.count, "erreur") %> à corriger:</h2>
+
+    <ul>
+    <% @exchange.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+    </ul>
+</div>
+<% end %>
+
+Que dire sur  <%= @friend.first_name %> ?
+
+<%= form_tag(exchanges_post_rate_path) do %>
+  <%= hidden_field(nil, :id, :value => @exchange.id) %>
+
+  <div class="field">
+    <%= label_tag :tags, "Tags" %>
+
+    <%# prevent errors if no checkbox are checked %>
+    <%= hidden_field(nil, 'exchange[tag_relations_attributes][]', value: '') %>
+    <%=
+      collection_check_boxes(nil, :tag_id, Tag.all, :id, :label_male, { include_hidden: false }) do |b|
+        b.label {
+          b.check_box(name: 'exchange[tag_relations_attributes][][tag_id]') + ' ' + b.text
+        }
+      end
+    %>
+  </div>
+
+  <%= submit_tag "Valider" %>
+<% end %>

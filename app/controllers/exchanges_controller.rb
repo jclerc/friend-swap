@@ -1,7 +1,9 @@
 class ExchangesController < ApplicationController
   include ExchangesHelper
 
-  before_action :check_and_set_exchange, only: %i[get_finish post_finish]
+  before_action :check_and_set_exchange, only: %i[get_finish post_finish get_rate post_rate]
+  before_action :check_exchange_active, only: %i[get_finish post_finish]
+  before_action :check_exchange_unactive_unrated, only: %i[get_rate post_rate]
   before_action :authenticate_user!
 
   def index
@@ -43,9 +45,24 @@ class ExchangesController < ApplicationController
 
   def post_finish
     if @exchange.update(is_active: false)
-      redirect_to :exchanges, notice: 'Échange terminé !'
+      redirect_to exchanges_get_rate_path(id: @exchange.id), notice: 'Échange terminé !'
     else
       render :finish
+    end
+  end
+
+  def get_rate
+    @friend = distinct_friends(@exchange).second
+    render :rate
+  end
+
+  def post_rate
+    @friend = distinct_friends(@exchange).second
+
+    if @exchange.update(exchange_params_rate)
+      redirect_to exchanges_path, notice: 'Informations sauvegardés !'
+    else
+      render :rate
     end
   end
 
@@ -55,7 +72,15 @@ class ExchangesController < ApplicationController
   def check_and_set_exchange
     @exchange = Exchange.find(params[:id])
     # should not happen, so an alert is not necessary
-    return redirect_to root_path unless @exchange.is_active && @exchange.friends.count { |f| f.user == current_user } == 1
+    return redirect_to root_path unless @exchange.friends.count { |f| f.user == current_user } == 1
+  end
+
+  def check_exchange_active
+    return redirect_to root_path unless @exchange.is_active
+  end
+
+  def check_exchange_unactive_unrated
+    return redirect_to root_path if @exchange.is_active || @exchange.user_rated?(@current_user)
   end
 
   def check_exchange_author
@@ -70,5 +95,12 @@ class ExchangesController < ApplicationController
     params.require(:exchange)
           .permit(:friend1_id, :friend2_id)
           .merge(is_active: true)
+  end
+
+  def exchange_params_rate
+    result = params.require(:exchange)
+                   .permit(tag_relations_attributes: [:tag_id])
+    result[:tag_relations_attributes].map { |t| t[:friend_id] = @friend.id }
+    result
   end
 end

@@ -39,6 +39,7 @@
       <th>L'autre copain</th>
       <th>Début</th>
       <th>Fin</th>
+      <th></th>
     </tr>
   </thead>
 
@@ -51,6 +52,11 @@
         <td><%= link_to friends.second.first_name, friends.second %></td>
         <td><%= exchange.created_at %></td>
         <td><%= exchange.updated_at %></td>
+        <td>
+        <% unless exchange.friend_rated? friends.second %>
+          <%= link_to "Noter", exchanges_get_rate_path(id: exchange.id) %>
+        <% end %>
+        </td>
       </tr>
     <% end %>
   </tbody>
