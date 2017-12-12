@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   get 'exchanges' => 'exchanges#index', as: 'exchanges'
   get 'exchanges/new/(:friend_id).(:other_id)' => 'exchanges#new', as: 'exchanges_new'
-  get 'exchanges/finish/(:exchange_id)' => 'exchanges#finish', as: 'exchanges_finish'
+  get 'exchanges/finish/(:id)' => 'exchanges#finish', as: 'exchanges_finish'
 
   devise_for :users, path: 'auth', path_names: {
     sign_up: 'register',

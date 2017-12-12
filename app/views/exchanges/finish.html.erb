@@ -1,2 +1,9 @@
-<h1>Exchanges#finish</h1>
-<p>Find me in app/views/exchanges/finish.html.erb</p>
+<h1>Terminer l'échange</h1>
+
+<% friend, other = distinct_friends @exchange %>
+
+Reprendre
+<%= friend.first_name %>
+
+et renvoyer
+<%= other.first_name %>
