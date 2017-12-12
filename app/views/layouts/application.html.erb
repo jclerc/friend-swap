@@ -48,8 +48,12 @@
           <%= link_to 'Identification', new_user_session_path %>
         </button>
       <% else %>
-        <%= link_to 'Compte', edit_user_registration_path %>
-        <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
+        <button class="btn btn-secondary" style="margin-right:.5rem;" type="button">
+          <%= link_to 'Mon Compte', edit_user_registration_path %>
+        </button>
+        <button class="btn btn-secondary" style="margin-right:.5rem;" type="button">
+          <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
+        </button>
       <% end %>
     </form>
   </div>
