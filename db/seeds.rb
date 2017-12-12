@@ -97,7 +97,7 @@ puts "Creating ~#{exchanges_created} exchanges"\
      ", linked to ~#{tags_created} tags..."
 friends.sample(friends_count * 0.5).each do |friend|
   rand(1..5).times do
-    other_friend = friends.sample(2).detect { |other| other != friend }
+    other_friend = friends.sample(20).detect { |other| other.id != friend.id && other.user_id != friend.user_id }
     exchange_old = Exchange.create! is_active: false,
                                     friend1: friend,
                                     friend2: other_friend
@@ -113,7 +113,7 @@ end
 # Current exchanges
 puts "Creating #{(friends.size / 4).floor} active exchanges..."
 friends.sample(friends.size / 2).each_slice(2).each do |a, b|
-  Exchange.create! is_active: true, friend1: a, friend2: b if b
+  Exchange.create! is_active: true, friend1: a, friend2: b if b and a.user != b.user
 end
 
 puts 'Done!'
