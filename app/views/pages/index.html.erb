@@ -16,7 +16,7 @@
           city_name: tag.city_name.parameterize, city: tag.city_id,
           tag_name: tag.label_male.parameterize, tag: tag.id
         ), class: 'link-clean' do |b| %>
-          <div class="tag-card" style="background-image: url('<%= asset_path "tags/#{tag.label_male.parameterize}.jpg" %>')">
+          <div class="tag-card mb-3" style="background-image: url('<%= asset_path "tags/#{tag.label_male.parameterize}.jpg" %>')">
             <div class="tag-gradient"></div>
             <div class="tag-content p-3">
 
@@ -30,7 +30,7 @@
     <% end %>
   </div>
 
-  <h3 class="mt-5 mb-3">Amis du moment</h3>
+  <h3 class="mt-4 mb-3">Amis du moment</h3>
 
   <div class="row">
     <% @most_traded.limit(20).each do |friend| %>
