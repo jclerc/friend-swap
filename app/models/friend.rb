@@ -7,7 +7,13 @@ class Friend < ApplicationRecord
   has_many :tags, through: :tag_relations
 
   # Associates the attribute ":avatar" with a file attachment
-  has_attached_file :avatar
+  has_attached_file :avatar, styles: {
+    original: '900x600#',
+    thumb: '360x240#'
+  }, convert_options: {
+    original: '-quality 75 -strip',
+    thumb: '-quality 75 -strip'
+  }
 
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
@@ -35,6 +41,7 @@ class Friend < ApplicationRecord
 
   # VALIDATION
 
+  validates :avatar, presence: true
   validates :first_name, length: { in: 3..50 }
   validates :birthday, presence: true
   validates :description, length: { in: 10..500 }

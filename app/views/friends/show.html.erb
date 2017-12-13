@@ -1,6 +1,10 @@
 <p id="notice"><%= notice %></p>
 
-<%= image_tag @friend.avatar.url %>
+<p>
+  <%= image_tag @friend.avatar.url(:thumb) %>
+  <br>
+  Voir en grand: <%= link_to 'avatar', @friend.avatar.url(:original) %>
+</p>
 
 <p>
   <strong>Prénom:</strong>
