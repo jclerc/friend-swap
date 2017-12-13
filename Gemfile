@@ -16,6 +16,10 @@ group :production do
 end
 # User management
 gem 'devise'
+# Avatar management
+gem 'paperclip'
+# AWS for avatar storage
+gem 'aws-sdk', '~> 2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.4'

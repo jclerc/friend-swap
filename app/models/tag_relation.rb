@@ -5,7 +5,5 @@ class TagRelation < ApplicationRecord
 
   # VALIDATION
 
-  validates :exchange_id, presence: true
   validates :tag_id, presence: true
-  validates :friend_id, presence: true
 end

@@ -68,16 +68,12 @@ class FriendsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def friend_params_create
     params.require(:friend)
-          .permit(:first_name, :birthday, :is_male, :description, :city_id, tag_relations_attributes: [:tag_id])
+          .permit(:avatar, :first_name, :birthday, :is_male, :description, :city_id, tag_relations_attributes: [:tag_id])
           .merge(user_id: current_user.id)
   end
 
-  def tags_params_create
-    params.require(:tags)
-  end
-
   def friend_params_update
-    params.require(:friend).permit(:description, :disabled)
+    params.require(:friend).permit(:avatar, :description, :disabled)
   end
 
   def require_owner

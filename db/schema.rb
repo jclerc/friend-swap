@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171211173749) do
+ActiveRecord::Schema.define(version: 20171212235955) do
 
   create_table "cities", force: :cascade do |t|
     t.string "name"
@@ -40,6 +40,10 @@ ActiveRecord::Schema.define(version: 20171211173749) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "disabled", default: false
+    t.string "avatar_file_name"
+    t.string "avatar_content_type"
+    t.integer "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.index ["city_id"], name: "index_friends_on_city_id"
     t.index ["user_id"], name: "index_friends_on_user_id"
   end

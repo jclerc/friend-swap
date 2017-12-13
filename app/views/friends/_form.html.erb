@@ -1,4 +1,4 @@
-<%= form_with(model: friend, local: true) do |form| %>
+<%= form_with(model: friend, local: true, multipart: true) do |form| %>
   <% if friend.errors.any? %>
     <div id="error_explanation">
       <h2><%= pluralize(friend.errors.count, "erreur") %> à corriger:</h2>
@@ -10,6 +10,11 @@
       </ul>
     </div>
   <% end %>
+
+  <div class="field">
+    <%= form.label :avatar, "Avatar" %>
+    <%= form.file_field :avatar, id: :avatar %>
+  </div>
 
   <% if mode == :new %>
 

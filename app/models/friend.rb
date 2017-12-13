@@ -6,6 +6,12 @@ class Friend < ApplicationRecord
   has_many :tag_relations, inverse_of: :friend
   has_many :tags, through: :tag_relations
 
+  # Associates the attribute ":avatar" with a file attachment
+  has_attached_file :avatar
+
+  # Validate the attached image is image/jpg, image/png, etc
+  validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
+
   def exchanges(include_active = false)
     return Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)) if include_active
     Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)).where(is_active: false)
