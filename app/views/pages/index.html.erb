@@ -1,23 +1,54 @@
 
+<div class="home-background">
+  <div class="container">
+    <h1>Vous voulez être à leur place ?</h1>
+    <p class="text-uppercase">Découvrez le bon copain —</p>
+  </div>
+</div>
 
+<div class="container">
+  <h3 class="mt-5 mb-3">Explorer le bon copain</h3>
 
-<h2>Best tags by city</h2>
+  <div class="row">
+    <% @tags_by_city.each do |tag| %>
+      <div class="col-md-3">
+        <%= link_to search_get_path(
+          city_name: tag.city_name.parameterize, city: tag.city_id,
+          tag_name: tag.label_male.parameterize, tag: tag.id
+        ), class: 'link-clean' do |b| %>
+          <div class="tag-card" style="background-image: url('<%= asset_path "tags/#{tag.label_male.parameterize}.jpg" %>')">
+            <div class="tag-gradient"></div>
+            <div class="tag-content p-3">
 
-<% @tags_by_city.each do |tag| %>
-  <%= link_to "#{tag.label_male} (#{tag.count}) - #{tag.city_name}", search_get_path(
-    city_name: tag.city_name.parameterize, city: tag.city_id,
-    tag_name: tag.label_male.parameterize, tag: tag.id
-  ) %>
-<% end %>
+              <h3 class="m-0 tag-text">#<%= tag.label_male.downcase %></h3>
+              <p class="m-0 tag-text"><%= tag.count %> amis ont ce tags à <%= tag.city_name %></p>
 
-<hr>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
-<h2>Most traded</h2>
+  <h3 class="mt-5 mb-3">Amis du moment</h3>
 
-<% @most_traded.limit(20).each do |friend| %>
-  <p>
-    <%= friend.first_name %>,
-    <%= friend.exchanges_count %>,
-    <td><%= link_to 'Show', friend %></td>
-  </p>
-<% end %>
+  <div class="row">
+    <% @most_traded.limit(20).each do |friend| %>
+      <div class="col-md-3 mb-4">
+        <%= link_to friend, class: 'link-clean' do |b| %>
+          <div class="card">
+            <%= image_tag friend.avatar.url(:thumb), class: 'img-fluid' %>
+            <div class="card-body">
+              <h4 class="m-0 tag-text"><%= friend.first_name %></h4>
+              <% friend.tags_sorted[0...3].each do |tag| %>
+                <span class="badge badge-info"><%= tag.second %>x <%= tag.first.label friend %></span>
+              <% end %>
+              <p class="m-0 tag-text">Échangé <%= friend.exchanges_count %> fois</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+</div>

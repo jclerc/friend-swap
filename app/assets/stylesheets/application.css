@@ -13,20 +13,3 @@
  *= require_tree .
  *= require bootstrap.min
  */
-
-body {
-  padding-top: 80px;
-}
-
-.alerts {
-  position: absolute;
-  bottom: 20px;
-  right: 40px;
-  max-width: 600px;
-  padding-left: 30px;
-}
-
-.alerts .alert .close {
-  position: relative;
-  padding: 0 0 0 10px;
-}

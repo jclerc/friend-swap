@@ -1,0 +1,63 @@
+
+body {
+  padding-top: 70px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+}
+
+.link-clean, .link-clean:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.alerts {
+  position: absolute;
+  bottom: 20px;
+  right: 40px;
+  max-width: 600px;
+  padding-left: 30px;
+
+  .alert .close {
+    position: relative;
+    padding: 0 0 0 10px;
+  }
+}
+
+.home-background {
+  background-color: #98AAA5;
+  background-image: url(image_path('home/bg.jpg'));
+  background-size: cover;
+  display: flex;
+  height: 400px;
+  align-items: center;
+  color: white;
+}
+
+.tag-card {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  color: white;
+  background-size: cover;
+  background-color: #CCC;
+  height: 350px;
+
+  &.tag-card-sm {
+    height: 200px;
+  }
+
+  .tag-gradient {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: -webkit-gradient(linear, left 50%, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.6)));
+  }
+
+  .tag-content {
+    position: relative;
+  }
+}
