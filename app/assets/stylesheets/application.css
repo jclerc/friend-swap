@@ -13,3 +13,7 @@
  *= require_tree .
  *= require bootstrap.min
  */
+
+body {
+  padding-top: 80px;
+}

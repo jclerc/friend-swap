@@ -1,14 +1,6 @@
 <h1>Pages#index</h1>
 <p>Find me in app/views/pages/index.html.erb</p>
 
-<% unless user_signed_in? %>
-    <%= link_to 'Inscription', new_user_registration_path %>
-    <%= link_to 'Identification', new_user_session_path %>
-<% else %>
-    <%= link_to 'Compte', edit_user_registration_path %>
-    <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
-<% end %>
-
 <hr>
 
 <h2>Search</h2>

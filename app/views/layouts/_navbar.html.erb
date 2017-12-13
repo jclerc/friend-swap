@@ -1,0 +1,38 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">LeBonCopain</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggle">
+      <ul class="navbar-nav mr-auto">
+        <%= nav_link "Accueil", root_path %>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Rechercher un copain</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav ml-auto">
+        <% if user_signed_in? %>
+          <%= nav_link "Mes échanges", exchanges_path %>
+
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" id="account" aria-expanded="false">
+              <%= current_user.first_name %> <span class="caret"></span>
+            </a>
+            <div class="dropdown-menu" aria-labelledby="account">
+              <%= link_to "Mes copains", friends_path, class: "dropdown-item" %>
+              <%= link_to "Ajouter un copain", new_friend_path, class: "dropdown-item" %>
+              <div class="dropdown-divider"></div>
+              <%= link_to "Paramètres", edit_user_registration_path, class: "dropdown-item" %>
+              <%= link_to "Déconnexion", destroy_user_session_path, method: :delete, class: "dropdown-item" %>
+            </div>
+          </li>
+        <% else %>
+          <%= nav_link "Inscription", new_user_registration_path %>
+          <%= nav_link "Connexion", new_user_session_path %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</nav>
