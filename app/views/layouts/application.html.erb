@@ -9,7 +9,9 @@
   </head>
 
   <body>
-    <%= render 'layouts/navbar' %>
+    <%= render partial: "shared/navbar" %>
+
+    <%= render partial: "shared/flash", flash: flash %>
 
     <%= yield %>
   </body>
