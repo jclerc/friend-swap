@@ -44,18 +44,18 @@ class PagesController < ApplicationController
 
   def search
     # Validate tags
-    tags = Tag.where(id: (params[:tag] || params[:tags].try(:reject, &:empty?)))
-    tag_ids = tags.map(&:id)
+    @tags = Tag.where(id: (params[:tag] || params[:tags].try(:reject, &:empty?)))
+    tag_ids = @tags.map(&:id)
     # Validate city
-    city = City.find_by_id(params[:city])
-    if city.blank?
+    @city = City.find_by_id(params[:city])
+    if @city.blank?
       redirect_to root_path
     elsif tag_ids.blank?
-      @results = Friend.order(:updated_at).where(city: city).where(disabled: false)
+      @results = Friend.order(:updated_at).where(city: @city).where(disabled: false)
     else
       @results = Friend.joins(:tag_relations)
                        .where('tag_relations.tag_id' => tag_ids)
-                       .where(city: city)
+                       .where(city: @city)
                        .where(disabled: false)
                        .group('friends.id')
                        .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)

@@ -26,14 +26,19 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 
-.home-background {
+.header {
   background-color: #98AAA5;
-  background-image: url(image_path('home/bg.jpg'));
+  background-image: url(image_path('header/bg.jpg'));
   background-size: cover;
   display: flex;
-  height: 400px;
   align-items: center;
   color: white;
+  height: 200px;
+  background-position: center;
+
+  &.header-lg {
+    height: 400px;
+  }
 }
 
 .tag-card {
