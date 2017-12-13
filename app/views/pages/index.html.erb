@@ -3,26 +3,6 @@
 
 <hr>
 
-<h2>Search</h2>
-
-<%# search_post %>
-<%= form_tag(search_post_path) do %>
-  <%=
-    collection_check_boxes(nil, :tags, Tag.all, :id, :label_male) do |b|
-      b.label { b.check_box + ' ' + b.text }
-    end
-  %>
-  <br>
-  <%=
-    collection_radio_buttons(nil, :city, City.all, :id, :name, {}, { required: true }) do |b|
-      b.label { b.radio_button + ' ' + b.text }
-    end
-  %>
-  <%= submit_tag("Search") %>
-<% end %>
-
-<hr>
-
 <h2>Best tags by city</h2>
 
 <% @tags_by_city.each do |tag| %>
