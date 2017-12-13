@@ -75,11 +75,15 @@ puts "Creating #{friends_count} friends, linked to ~#{friends_count * 3} tags...
 friends = []
 date_min = Date.new(2000, 12, 12)
 date_max = Date.new(1990, 1, 1)
+i = 0
 friends_count.times do
-  date = (date_min + (date_max - date_min) * rand).to_date
-  male = [true, false].sample
+  i += 1
+  male = i <= friends_count / 2
+  img = (male ? "male/#{i}" : "female/#{i-100}") + '.jpg'
   first_name = (male ? first_names_male : first_names_female).sample
+  date = (date_min + (date_max - date_min) * rand).to_date
   friends << Friend.create!(
+    avatar: File.new("#{Rails.root}/app/assets/images/seeds/friends/#{img}"),
     first_name: first_name,
     birthday: date,
     is_male: male,
