@@ -51,15 +51,9 @@ class PagesController < ApplicationController
     if @city.blank?
       redirect_to root_path
     elsif tag_ids.blank?
-      @results = Friend.order(:updated_at).where(city: @city).where(disabled: false)
+      @results = Friend.active.city(@city).latest
     else
-      @results = Friend.joins(:tag_relations)
-                       .where('tag_relations.tag_id' => tag_ids)
-                       .where(city: @city)
-                       .where(disabled: false)
-                       .group('friends.id')
-                       .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)
-                       .order('COUNT(*) DESC')
+      @results = Friend.active.city(@city).with_tags(tag_ids, sort: :desc)
     end
   end
 end

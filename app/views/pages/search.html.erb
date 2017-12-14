@@ -2,9 +2,11 @@
 <div class="header">
   <div class="container">
     <h1>Votre recherche</h1>
-    <p class="text-uppercase m-0">
-      Tags: <%= @tags.map { |tag| tag.label_male }.join ', ' %>
-    </p>
+    <% if @tags.present? %>
+      <p class="text-uppercase m-0">
+        Tags: <%= @tags.map { |tag| tag.label_male }.join ', ' %>
+      </p>
+    <% end %>
     <p class="text-uppercase m-0">
       À: <%= @city.name %>
     </p>

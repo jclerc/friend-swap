@@ -18,6 +18,19 @@ class Friend < ApplicationRecord
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
+  scope :active, -> { where disabled: false }
+  scope :latest, -> { order updated_at: :desc }
+  scope :city, ->(city) { where city: city }
+  scope :with_tags, (lambda do |tag_ids, sort = nil|
+    # require all tags to be present
+    results = joins(:tag_relations).where('tag_relations.tag_id' => tag_ids)
+                                   .group(:id)
+                                   .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)
+    # this sort is specific to this scope
+    results.order('COUNT(*) ' + sort.to_s) if %i[asc desc].include? sort
+    results
+  end)
+
   def exchanges(include_active = false)
     return Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)) if include_active
     Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)).where(is_active: false)
