@@ -50,8 +50,19 @@
         <div class="modal-body">
 
             <div class="form-group">
+              <div class="input-group">
+                  <input type="text" class="form-control search-form" placeholder="Search for..." aria-label="Search for...">
+                  <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Go!</button>
+                  </span>
+                </div>
+            </div>
+  
+            <hr>
+
+            <div class="form-group">
               <%= collection_check_boxes(nil, :tags, Tag.all, :id, :label_male) do |b| %>
-                  <label class="custom-control custom-checkbox">
+                  <label class="custom-control custom-checkbox search-tag">
                     <%= b.check_box(class: "custom-control-input") %>
                     <span class="custom-control-indicator"></span>
                     <span class="custom-control-description">
@@ -65,7 +76,7 @@
 
             <div class="form-group">
               <%= collection_radio_buttons(nil, :city, City.all, :id, :name, {}, { required: true }) do |b| %>
-                <label class="custom-control custom-radio">
+                <label class="custom-control custom-radio search-city">
                   <%= b.radio_button(class: 'custom-control-input') %>
                   <span class="custom-control-indicator"></span>
                   <span class="custom-control-description">
