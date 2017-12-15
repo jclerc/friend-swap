@@ -103,8 +103,8 @@ friends.sample(friends_count * 0.5).each do |friend|
   rand(1..5).times do
     other_friend = friends.sample(20).detect { |other| other.id != friend.id && other.user_id != friend.user_id }
     exchange_old = Exchange.create! is_active: false,
-                                    friend1: friend,
-                                    friend2: other_friend
+                                    friend1_id: friend.id,
+                                    friend2_id: other_friend.id
 
     [friend, other_friend].each do |f|
       tags.sample(rand(2..5)).each do |tag|
