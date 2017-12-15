@@ -5,6 +5,12 @@ class Exchange < ApplicationRecord
   belongs_to :friend2, class_name: 'Friend', foreign_key: 'friend2_id'
   has_many :tag_relations, inverse_of: :exchange
 
+  scope :latest, -> { order updated_at: :desc }
+  scope :of_friend, (lambda do |friend|
+    where(friend1_id: friend)
+      .or(Exchange.where(friend2_id: friend))
+  end)
+
   def friends
     [friend1, friend2]
   end

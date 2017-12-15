@@ -8,9 +8,7 @@ class ExchangesController < ApplicationController
 
   def index
     friends = current_user.friends
-    @exchanges = Exchange.where(friend1_id: friends)
-                         .or(Exchange.where(friend2_id: friends))
-                         .order(updated_at: :desc)
+    @exchanges = Exchange.of_friend(friends).latest
     @exchanges_active = []
     @exchanges_past = []
     @exchanges.each do |exchange|

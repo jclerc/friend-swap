@@ -1,45 +1,8 @@
 class PagesController < ApplicationController
   def index
     @city = City.first
-    @most_traded = Friend.select('friends.*, COUNT(DISTINCT tag_relations.exchange_id) as exchanges_count')
-                         .joins(:tag_relations)
-                         .group(:id)
-                         .where(disabled: false)
-                         .order('exchanges_count DESC')
-
-    # NOTE: here we are quering then filtering results by ourselves...
-    tags_by_city = Tag.select('tags.*, '\
-                              'cities.id as city_id, '\
-                              'cities.name as city_name, '\
-                              'COUNT(DISTINCT friends.id) as count')
-                      .joins(:tag_relations)
-                      .joins(:friends)
-                      .joins('INNER JOIN cities ON cities.id = friends.city_id')
-                      .where('friends.disabled' => false)
-                      .group('cities.id, tags.id')
-    hash = Hash.new(0)
-    tags_by_city.each do |tag|
-      hash[tag.city_id] = [tag.count, tag] if tag.count > hash[tag.city_id][0]
-    end
-    @tags_by_city = hash.values.sort_by { |entry| entry[0] }.reverse.map { |entry| entry[1] }
-
-    # ... as the following query works in SQLite, but not in PostgreSQL
-    # @tags_by_city = Tag.select('id, label_male, city_name, city_id, MAX(friends_count) as count')
-    #                    .from(
-    #                      Tag.select(
-    #                        'tags.*, '\
-    #                        'cities.id as city_id, '\
-    #                        'cities.name as city_name, '\
-    #                        'COUNT(DISTINCT friends.id) as friends_count'
-    #                      )
-    #                      .joins(:tag_relations)
-    #                      .joins(:friends)
-    #                      .joins('INNER JOIN cities ON cities.id = friends.city_id')
-    #                      .where('friends.disabled' => false)
-    #                      .group('cities.id, tags.id')
-    #                   )
-    #                   .group('city_id')
-    #                   .order('count DESC')
+    @most_traded = Friend.active.with_exchanges_count :desc
+    @tags_by_city = Tag.best_tags_by_city
   end
 
   def search
@@ -53,7 +16,7 @@ class PagesController < ApplicationController
     elsif tag_ids.blank?
       @results = Friend.active.city(@city).latest
     else
-      @results = Friend.active.city(@city).with_tags(tag_ids, sort: :desc)
+      @results = Friend.active.city(@city).with_tags(tag_ids, :desc)
     end
   end
 end

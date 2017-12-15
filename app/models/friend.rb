@@ -27,7 +27,15 @@ class Friend < ApplicationRecord
                                    .group(:id)
                                    .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)
     # this sort is specific to this scope
-    results.order('COUNT(*) ' + sort.to_s) if %i[asc desc].include? sort
+    results = results.order("COUNT(*) #{sort}") if %i[asc desc].include? sort
+    results
+  end)
+  scope :with_exchanges_count, (lambda do |sort = nil|
+    results = select('friends.*, COUNT(DISTINCT tag_relations.exchange_id) as exchanges_count')
+                .joins(:tag_relations)
+                .group(:id)
+                .where(disabled: false)
+    results = results.order("exchanges_count #{sort}") if %i[asc desc].include? sort
     results
   end)
 
