@@ -21,6 +21,7 @@ class Friend < ApplicationRecord
   scope :active, -> { where disabled: false }
   scope :latest, -> { order updated_at: :desc }
   scope :city, ->(city) { where city: city }
+  scope :of_user, ->(user) { where user: user }
   scope :with_tags, (lambda do |tag_ids, sort = nil|
     # require all tags to be present
     results = joins(:tag_relations).where('tag_relations.tag_id' => tag_ids)
