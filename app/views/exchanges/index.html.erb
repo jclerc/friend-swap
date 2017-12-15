@@ -50,8 +50,8 @@
         <td><%= exchange.is_active? %></td>
         <td><%= link_to friends.first.first_name, friends.first %></td>
         <td><%= link_to friends.second.first_name, friends.second %></td>
-        <td><%= exchange.created_at %></td>
-        <td><%= exchange.updated_at %></td>
+        <td><%= exchange.start_date %></td>
+        <td><%= exchange.end_date %></td>
         <td>
         <% unless exchange.friend_rated? friends.second %>
           <%= link_to "Noter", exchanges_get_rate_path(id: exchange.id) %>

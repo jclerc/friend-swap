@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171212235955) do
+ActiveRecord::Schema.define(version: 20171215114106) do
 
   create_table "cities", force: :cascade do |t|
     t.string "name"
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20171212235955) do
     t.integer "friend2_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.index ["friend1_id"], name: "index_exchanges_on_friend1_id"
     t.index ["friend2_id"], name: "index_exchanges_on_friend2_id"
   end

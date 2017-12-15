@@ -23,6 +23,11 @@ class Exchange < ApplicationRecord
     tag_relations.where(friend: friend).any?
   end
 
+  # AUTO-UPDATE FIELDS
+
+  before_create :set_start
+  before_save :set_end
+
   # VALIDATION
 
   validates :friend1_id, presence: true
@@ -35,6 +40,18 @@ class Exchange < ApplicationRecord
   validate :check_tags_count, on: :update
 
   accepts_nested_attributes_for :tag_relations
+
+  # PRIVATE METHODS
+
+  private
+
+  def set_start
+    self.start_date = Time.now unless start_date
+  end
+
+  def set_end
+    self.end_date = Time.now unless is_active? || end_date
+  end
 
   def check_different
     errors.add(:base, "Impossible d'échanger un ami contre lui même") unless friend1.id != friend2.id
