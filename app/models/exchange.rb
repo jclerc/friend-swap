@@ -26,8 +26,8 @@ class Exchange < ApplicationRecord
 
   # AUTO-UPDATE FIELDS
 
-  before_create :set_start
-  before_save :set_end
+  before_create :set_start_date
+  before_save :set_end_date
 
   # VALIDATION
 
@@ -46,11 +46,11 @@ class Exchange < ApplicationRecord
 
   private
 
-  def set_start
+  def set_start_date
     self.start_date = Time.now unless start_date
   end
 
-  def set_end
+  def set_end_date
     self.end_date = Time.now unless is_active? || end_date
   end
 

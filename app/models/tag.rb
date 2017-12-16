@@ -58,4 +58,9 @@ class Tag < ApplicationRecord
     #                   .group('city_id')
     #                   .order('count DESC')
   end
+
+  # VALIDATION
+
+  validates :label_male, presence: true
+  validates :label_female, presence: true
 end
