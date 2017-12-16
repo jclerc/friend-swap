@@ -6,6 +6,7 @@ class Exchange < ApplicationRecord
   has_many :tag_relations, inverse_of: :exchange
 
   scope :latest, -> { order updated_at: :desc }
+  scope :active, ->(active = true) { where is_active: active }
   scope :of_friend, (lambda do |friend|
     where(friend_initier_id: friend)
       .or(Exchange.where(friend_receiver_id: friend))

@@ -41,8 +41,8 @@ class Friend < ApplicationRecord
   end)
 
   def exchanges(include_active = false)
-    return Exchange.where(friend_initier_id: self).or(Exchange.where(friend_receiver_id: self)) if include_active
-    Exchange.where(friend_initier_id: self).or(Exchange.where(friend_receiver_id: self)).where(is_active: false)
+    return Exchange.of_friend(self) if include_active
+    Exchange.of_friend(self).active(false)
   end
 
   def tags_grouped
