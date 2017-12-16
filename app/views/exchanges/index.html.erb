@@ -1,63 +1,111 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Mes échanges</h1>
+<div class="header header-5">
+  <div class="container">
+    <h1>Mes échanges</h1>
+  </div>
+</div>
 
-<h3>Échanges actifs</h3>
+<div class="container mt-5">
 
-<table>
-  <thead>
-    <tr>
-      <th>Actif</th>
-      <th>Mon copain</th>
-      <th>L'autre copain</th>
-      <th>Début</th>
-      <th></th>
-    </tr>
-  </thead>
+  <ul class="nav nav-tabs nav-tabs-center">
+    <li class="nav-item">
+      <a class="nav-link active" data-toggle="tab" href="#exchanges-actives">
+        Actifs
+        <span class="badge badge-pill badge-primary"><%= @exchanges_active.size %></span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#exchanges-past">
+        Passés
+        <span class="badge badge-pill badge-secondary"><%= @exchanges_past.size %></span>
+      </a>
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane fade show active" id="exchanges-actives">
 
-  <tbody>
-    <% @exchanges_active.each do |exchange| %>
-      <% friends = distinct_friends exchange %>
-      <tr>
-        <td><%= exchange.is_active? %></td>
-        <td><%= link_to friends.first.first_name, friends.first %></td>
-        <td><%= link_to friends.second.first_name, friends.second %></td>
-        <td><%= exchange.created_at %></td>
-        <td><%= link_to 'Rendre', exchanges_get_finish_path(id: exchange.id) %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
 
-<h3>Échanges passés</h3>
+          <% @exchanges_active.each do |exchange| %>
+            <% friends = distinct_friends exchange %>
+            <div class="card bg-light my-3">
+              <div class="card-body text-center">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <%= link_to friends.first, class: 'link-clean' do %>
+                      <%= image_tag friends.first.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+                      <%= friends.first.first_name %>
+                    <% end %>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>
+                      Débuté le:
+                      <%= exchange.start_date.strftime("%m/%d/%Y à %H:%M:%S") %>
+                    </p>
+                    <p>
+                      <%= link_to 'Rendre', exchanges_get_finish_path(id: exchange.id), class: 'btn btn-primary' %>
+                    </p>
+                  </div>
+                  <div class="col-sm-4">
+                    <%= link_to friends.second, class: 'link-clean' do %>
+                      <%= image_tag friends.second.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+                      <%= friends.second.first_name %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
 
-<table>
-  <thead>
-    <tr>
-      <th>Actif</th>
-      <th>Mon copain</th>
-      <th>L'autre copain</th>
-      <th>Début</th>
-      <th>Fin</th>
-      <th></th>
-    </tr>
-  </thead>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade" id="exchanges-past">
 
-  <tbody>
-    <% @exchanges_past.each do |exchange| %>
-      <% friends = distinct_friends exchange %>
-      <tr>
-        <td><%= exchange.is_active? %></td>
-        <td><%= link_to friends.first.first_name, friends.first %></td>
-        <td><%= link_to friends.second.first_name, friends.second %></td>
-        <td><%= exchange.start_date %></td>
-        <td><%= exchange.end_date %></td>
-        <td>
-        <% unless exchange.friend_rated? friends.second %>
-          <%= link_to "Noter", exchanges_get_rate_path(id: exchange.id) %>
-        <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <div class="row">
+        <div class="col-md-6 offset-md-3">
+
+          <% @exchanges_past.each do |exchange| %>
+            <% friends = distinct_friends exchange %>
+            <% exchange_rated = exchange.friend_rated? friends.second %>
+            <div class="card bg-light my-3">
+              <div class="card-body text-center">
+                <div class="row">
+                  <div class="col-sm-4">
+                    <%= link_to friends.first, class: 'link-clean' do %>
+                      <%= image_tag friends.first.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+                      <%= friends.first.first_name %>
+                    <% end %>
+                  </div>
+                  <div class="col-sm-4">
+                    <p>
+                      Terminé le:
+                      <%= exchange.end_date.strftime("%m/%d/%Y à %H:%M:%S") %>
+
+                      (<%= (exchange.end_date.to_date - exchange.start_date.to_date).to_i %> jours)
+                    </p>
+                    <% unless exchange_rated %>
+                      <%= link_to "Noter", exchanges_get_rate_path(id: exchange.id), class: 'btn btn-primary' %>
+                    <% else %>
+                      <button class="btn btn-outline-primary disabled" disabled>Déjà noté</button>
+                    <% end %>
+                  </div>
+                  <div class="col-sm-4">
+                    <%= link_to friends.second, class: 'link-clean' do %>
+                      <%= image_tag friends.second.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+                      <%= friends.second.first_name %>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          <% end %>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
