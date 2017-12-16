@@ -8,9 +8,7 @@ class ExchangesController < ApplicationController
 
   def index
     friends = current_user.friends
-    @exchanges = Exchange.where(friend1_id: friends)
-                         .or(Exchange.where(friend2_id: friends))
-                         .order(updated_at: :desc)
+    @exchanges = Exchange.of_friend(friends).latest
     @exchanges_active = []
     @exchanges_past = []
     @exchanges.each do |exchange|
@@ -28,8 +26,8 @@ class ExchangesController < ApplicationController
 
   def create
     # From post params
-    @friend = Friend.find_by_id(params[:exchange][:friend1_id])
-    @other = Friend.find_by_id(params[:exchange][:friend2_id])
+    @friend = Friend.find_by_id(params[:exchange][:friend_initier_id])
+    @other = Friend.find_by_id(params[:exchange][:friend_receiver_id])
     check_exchange_author
     @exchange = Exchange.new(exchange_params_create)
     if @exchange.save
@@ -93,7 +91,7 @@ class ExchangesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def exchange_params_create
     params.require(:exchange)
-          .permit(:friend1_id, :friend2_id)
+          .permit(:friend_receiver_id, :friend_initier_id)
           .merge(is_active: true)
   end
 

@@ -1,8 +1,8 @@
 class Friend < ApplicationRecord
   belongs_to :city
   belongs_to :user
-  has_many :exchanges1, class_name: 'Exchange', foreign_key: 'friend1_id'
-  has_many :exchanges2, class_name: 'Exchange', foreign_key: 'friend2_id'
+  has_many :exchanges1, class_name: 'Exchange', foreign_key: 'friend_initier_id'
+  has_many :exchanges2, class_name: 'Exchange', foreign_key: 'friend_receiver_id'
   has_many :tag_relations, inverse_of: :friend
   has_many :tags, through: :tag_relations
 
@@ -18,9 +18,31 @@ class Friend < ApplicationRecord
   # Validate the attached image is image/jpg, image/png, etc
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/
 
+  scope :active, -> { where disabled: false }
+  scope :latest, -> { order updated_at: :desc }
+  scope :city, ->(city) { where city: city }
+  scope :of_user, ->(user) { where user: user }
+  scope :with_tags, (lambda do |tag_ids, sort = nil|
+    # require all tags to be present
+    results = joins(:tag_relations).where('tag_relations.tag_id' => tag_ids)
+                                   .group(:id)
+                                   .having('COUNT(DISTINCT tag_relations.tag_id) = ?', tag_ids.size)
+    # this sort is specific to this scope
+    results = results.order("COUNT(*) #{sort}") if %i[asc desc].include? sort
+    results
+  end)
+  scope :with_exchanges_count, (lambda do |sort = nil|
+    results = select('friends.*, COUNT(DISTINCT tag_relations.exchange_id) as exchanges_count')
+                .joins(:tag_relations)
+                .group(:id)
+                .where(disabled: false)
+    results = results.order("exchanges_count #{sort}") if %i[asc desc].include? sort
+    results
+  end)
+
   def exchanges(include_active = false)
-    return Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)) if include_active
-    Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)).where(is_active: false)
+    return Exchange.of_friend(self) if include_active
+    Exchange.of_friend(self).active(false)
   end
 
   def tags_grouped
