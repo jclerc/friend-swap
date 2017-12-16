@@ -78,3 +78,23 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
   }
 }
+
+.img-profile-container {
+  position: relative;
+
+  .img-profile-header {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -50%);
+
+    .img-profile-img {
+      width: 100%;
+      max-width: 300px;
+    }
+  }
+}
+
+.img-profile-content {
+  padding-top: 125px;
+}
