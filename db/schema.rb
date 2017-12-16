@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171215114106) do
+ActiveRecord::Schema.define(version: 20171216114657) do
 
   create_table "cities", force: :cascade do |t|
     t.string "name"
@@ -22,14 +22,14 @@ ActiveRecord::Schema.define(version: 20171215114106) do
 
   create_table "exchanges", force: :cascade do |t|
     t.boolean "is_active"
-    t.integer "friend1_id"
-    t.integer "friend2_id"
+    t.integer "friend_initier_id"
+    t.integer "friend_receiver_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "start_date"
     t.datetime "end_date"
-    t.index ["friend1_id"], name: "index_exchanges_on_friend1_id"
-    t.index ["friend2_id"], name: "index_exchanges_on_friend2_id"
+    t.index ["friend_initier_id"], name: "index_exchanges_on_friend_initier_id"
+    t.index ["friend_receiver_id"], name: "index_exchanges_on_friend_receiver_id"
   end
 
   create_table "friends", force: :cascade do |t|

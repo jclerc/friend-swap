@@ -1,8 +1,8 @@
 class Friend < ApplicationRecord
   belongs_to :city
   belongs_to :user
-  has_many :exchanges1, class_name: 'Exchange', foreign_key: 'friend1_id'
-  has_many :exchanges2, class_name: 'Exchange', foreign_key: 'friend2_id'
+  has_many :exchanges1, class_name: 'Exchange', foreign_key: 'friend_initier_id'
+  has_many :exchanges2, class_name: 'Exchange', foreign_key: 'friend_receiver_id'
   has_many :tag_relations, inverse_of: :friend
   has_many :tags, through: :tag_relations
 
@@ -41,8 +41,8 @@ class Friend < ApplicationRecord
   end)
 
   def exchanges(include_active = false)
-    return Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)) if include_active
-    Exchange.where(friend1_id: self).or(Exchange.where(friend2_id: self)).where(is_active: false)
+    return Exchange.where(friend_initier_id: self).or(Exchange.where(friend_receiver_id: self)) if include_active
+    Exchange.where(friend_initier_id: self).or(Exchange.where(friend_receiver_id: self)).where(is_active: false)
   end
 
   def tags_grouped

@@ -1,6 +1,6 @@
 module ExchangesHelper
   def distinct_friends(e, user = current_user)
     # Set user's friend in first, other in second
-    [e.friend1, e.friend2].tap { |o| o.reverse! unless e.friend1.user == user }
+    [e.friend_initier, e.friend_receiver].tap { |o| o.reverse! unless e.friend_initier.user == user }
   end
 end

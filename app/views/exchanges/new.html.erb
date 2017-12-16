@@ -15,8 +15,8 @@
 <%= form_tag(exchanges_create_path) do %>
   Échanger: <%= @friend.first_name %> contre <%= @other.first_name %> ?
 
-  <%= hidden_field(:exchange, :friend1_id, :value => @friend.id) %>
-  <%= hidden_field(:exchange, :friend2_id, :value => @other.id) %>
+  <%= hidden_field(:exchange, :friend_initier_id, :value => @friend.id) %>
+  <%= hidden_field(:exchange, :friend_receiver_id, :value => @other.id) %>
 
   <%= submit_tag "C'est parti" %>
 <% end %>
