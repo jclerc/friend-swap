@@ -15,7 +15,7 @@
         <%= link_to search_get_path(
           city_name: tag.city_name.parameterize, city: tag.city_id,
           tag_name: tag.label_male.parameterize, tag: tag.id
-        ), class: 'link-clean' do |b| %>
+        ), class: 'link-clean' do %>
           <div class="tag-card mb-3" style="background-image: url('<%= asset_path "tags/#{tag.label_male.parameterize}.jpg" %>')">
             <div class="tag-gradient"></div>
             <div class="tag-content p-3">
@@ -35,7 +35,7 @@
   <div class="row">
     <% @most_traded.limit(20).each do |friend| %>
       <div class="col-md-3 mb-4">
-        <%= link_to friend, class: 'link-clean' do |b| %>
+        <%= link_to friend, class: 'link-clean' do %>
           <div class="card">
             <%= image_tag friend.avatar.url(:thumb), class: 'img-fluid' %>
             <div class="card-body">

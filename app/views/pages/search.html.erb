@@ -18,7 +18,7 @@
   <div class="row">
     <% @results.limit(50).each do |friend| %>
       <div class="col-md-3 mb-4">
-        <%= link_to friend, class: 'link-clean' do |b| %>
+        <%= link_to friend, class: 'link-clean' do %>
           <div class="card">
             <%= image_tag friend.avatar.url(:thumb), class: 'img-fluid' %>
             <div class="card-body">

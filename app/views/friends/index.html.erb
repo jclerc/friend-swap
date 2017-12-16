@@ -1,35 +1,44 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Mes annonces</h1>
+<div class="header header-5">
+  <div class="container">
+    <h1>Mes annonces</h1>
+    <p class="text-uppercase mt-0 mb-1">
+      Vous avez ajouté <%= @friends.size %> amis
+    </p>
+    <p>
+      <%= link_to 'Ajouter un copain', new_friend_path, class: 'btn btn-success' %>
+    </p>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Prénom</th>
-      <th>Genre</th>
-      <th>Description</th>
-      <th>Ville</th>
-      <th>Échanges</th>
-      <th>Meilleur tag</th>
-      <th></th>
-    </tr>
-  </thead>
+<div class="container mt-5">
 
-  <tbody>
+  <div class="row">
     <% @friends.each do |friend| %>
-      <tr>
-        <td><%= friend.first_name %></td>
-        <td><%= friend.is_male ? 'Homme' : 'Femme' %></td>
-        <td><%= truncate(friend.description, length: 30) %></td>
-        <td><%= friend.city.name %></td>
-        <td><%= friend.exchanges.size %></td>
-        <td><%= friend.tags_sorted.first.first.label friend %></td>
-        <td><%= link_to 'Voir', friend %></td>
-      </tr>
+      <div class="col-md-3 mb-4">
+        <%= link_to friend, class: 'link-clean' do %>
+          <div class="card">
+            <%= image_tag friend.avatar.url(:thumb), class: 'img-fluid' %>
+            <div class="card-body">
+              <h4 class="m-0 tag-text">
+                <%= friend.first_name %><small class="text-muted">,
+                  <% if friend.disabled? %>
+                    <span class="text-danger"><%= friend.is_male ? 'désactivé' : 'désactivée' %></span>
+                  <% elsif friend.available? %>
+                    <span class="text-success"><%= friend.is_male ? 'actif' : 'active' %></span>
+                  <% else %>
+                    <span class="text-warning">en échange</span>
+                  <% end %>
+                </small>
+              </h4>
+              <% friend.tags_sorted[0...3].each do |tag| %>
+                <span class="badge badge-info"><%= tag.second %>x <%= tag.first.label friend %></span>
+              <% end %>
+              <p class="m-0 tag-text"><%= truncate(friend.description, length: 30) %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
     <% end %>
-  </tbody>
-</table>
-
-<br>
-
-<%= link_to 'Ajouter un copain', new_friend_path %>
+  </div>
+</div>
