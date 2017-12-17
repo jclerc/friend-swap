@@ -31,7 +31,7 @@ class ExchangesController < ApplicationController
     check_exchange_author && return
     @exchange = Exchange.new(exchange_params_create)
     if @exchange.save
-      redirect_to exchanges_url, notice: 'Ajout avec succès !'
+      redirect_to exchanges_url, notice: "L'échange a débuté !"
     else
       render :new
     end
@@ -58,7 +58,7 @@ class ExchangesController < ApplicationController
     @friend = distinct_friends(@exchange).second
 
     if @exchange.update(exchange_params_rate)
-      redirect_to exchanges_path, notice: 'Informations sauvegardés !'
+      redirect_to exchanges_path, notice: 'Notation sauvegardé !'
     else
       render :rate
     end

@@ -9,6 +9,7 @@
 </div>
 
 <div class="container mt-5">
+  <%= render partial: "shared/flash", flash: flash %>
 
   <div class="row">
     <% @friends.each do |friend| %>

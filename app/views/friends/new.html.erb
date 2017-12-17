@@ -7,5 +7,6 @@
 </div>
 
 <div class="container mt-5">
+  <%= render partial: "shared/flash", flash: flash %>
   <%= render 'form', friend: @friend, mode: :new %>
 </div>
