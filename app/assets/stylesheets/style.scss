@@ -40,6 +40,11 @@ h1, h2, h3, h4, h5, h6 {
   background-position: center;
   background-image: url(image_path('header/0.jpg'));
 
+  .link-clean, .link-clean:hover {
+    color: white;
+    text-decoration: underline;
+  }
+
   @for $i from 1 through 15 {
     &.header-#{$i} {
       background-image: url(image_path('header/#{$i}.jpg'));
@@ -97,4 +102,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .img-profile-content {
   padding-top: 125px;
+}
+
+.field_with_errors label {
+  color: #E74C3C;
 }

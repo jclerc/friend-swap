@@ -3,11 +3,8 @@
   <div class="container">
     <h1>Mes annonces</h1>
     <p class="text-uppercase mt-0 mb-1">
-      Vous avez ajouté <%= @friends.size %> amis
-    </p>
-    <p>
-      <%= link_to 'Ajouter un copain', new_friend_path, class: 'btn btn-success' %>
-    </p>
+      Vous avez ajouté <%= @friends.size %> amis,
+      <%= link_to 'ajouter un autre', new_friend_path, class: 'link-clean' %>
   </div>
 </div>
 

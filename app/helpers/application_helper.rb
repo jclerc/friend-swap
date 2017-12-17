@@ -27,4 +27,17 @@ module ApplicationHelper
     # d = friend.birthday
     now.year - d.year - (now.month > d.month || (now.month == d.month && now.day >= d.day) ? 0 : 1)
   end
+
+  def errors_for(object)
+    if object.errors.any?
+      content_tag(:div, class: 'alert alert-danger') do
+        concat(content_tag(:h4, class: 'alert-heading') do
+          concat "#{pluralize(object.errors.count, 'erreur')} à corriger:"
+        end)
+        object.errors.full_messages.each do |msg|
+          concat content_tag(:p, msg, class: 'm-0')
+        end
+      end
+    end
+  end
 end

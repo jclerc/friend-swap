@@ -1,6 +1,11 @@
-<h1>Ajouter un copain</h1>
 
-<%= render 'form', friend: @friend, mode: :new %>
+<div class="header header-2">
+  <div class="container">
+    <h1>Ajouter un copain</h1>
+    <p class="text-uppercase m-0"><%= link_to 'Mes annonces', friends_path, class: 'link-clean' %></p>
+  </div>
+</div>
 
-<%= link_to 'Mes annonces', friends_path %> |
-<%= link_to 'Accueil', root_path %>
+<div class="container mt-5">
+  <%= render 'form', friend: @friend, mode: :new %>
+</div>
