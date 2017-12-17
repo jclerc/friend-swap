@@ -49,16 +49,18 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .alerts {
-  position: absolute;
-  z-index: 1000;
-  bottom: 20px;
-  right: 40px;
-  max-width: 600px;
-  padding-left: 30px;
+  &.alerts-fixed {
+    position: fixed;
+    z-index: 1000;
+    bottom: 20px;
+    right: 40px;
+    max-width: 600px;
+    padding-left: 30px;
 
-  .alert .close {
-    position: relative;
-    padding: 0 0 0 10px;
+    .alert .close {
+      position: relative;
+      padding: 0 0 0 10px;
+    }
   }
 }
 
