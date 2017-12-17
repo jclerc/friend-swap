@@ -20,7 +20,7 @@ class ExchangesController < ApplicationController
     # From get params
     @friend = Friend.find(params[:friend_id])
     @other = Friend.find(params[:other_id])
-    check_exchange_author
+    check_exchange_author && return
     @exchange = Exchange.new
   end
 
@@ -28,7 +28,7 @@ class ExchangesController < ApplicationController
     # From post params
     @friend = Friend.find_by_id(params[:exchange][:friend_initier_id])
     @other = Friend.find_by_id(params[:exchange][:friend_receiver_id])
-    check_exchange_author
+    check_exchange_author && return
     @exchange = Exchange.new(exchange_params_create)
     if @exchange.save
       redirect_to exchanges_url, notice: 'Ajout avec succès !'
