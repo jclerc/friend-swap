@@ -28,7 +28,7 @@
       <div class="row">
         <div class="col-md-6 offset-md-3">
 
-          <% @exchanges_active.each do |exchange| %>
+          <% if @exchanges_active.each do |exchange| %>
             <% friends = distinct_friends exchange %>
             <div class="card bg-light my-3">
               <div class="card-body text-center">
@@ -57,6 +57,8 @@
                 </div>
               </div>
             </div>
+          <% end.empty? %>
+            <h4 class="mt-3 text-center text-muted">Aucun échange actif</h4>
           <% end %>
 
         </div>
@@ -67,7 +69,7 @@
       <div class="row">
         <div class="col-md-6 offset-md-3">
 
-          <% @exchanges_past.each do |exchange| %>
+          <% if @exchanges_past.each do |exchange| %>
             <% friends = distinct_friends exchange %>
             <% exchange_rated = exchange.friend_rated? friends.second %>
             <div class="card bg-light my-3">
@@ -101,6 +103,8 @@
                 </div>
               </div>
             </div>
+          <% end.empty? %>
+            <h4 class="mt-3 text-center text-muted">Aucun échange passés</h4>
           <% end %>
 
         </div>

@@ -16,7 +16,7 @@
 <div class="container mt-5">
 
   <div class="row">
-    <% @results.limit(50).each do |friend| %>
+    <% if @results.limit(0).each do |friend| %>
       <div class="col-md-3 mb-4">
         <%= link_to friend, class: 'link-clean' do %>
           <div class="card">
@@ -30,6 +30,10 @@
             </div>
           </div>
         <% end %>
+      </div>
+    <% end.empty? %>
+      <div class="container-fluid">
+        <h3>Aucun résultat...</h3>
       </div>
     <% end %>
   </div>

@@ -12,7 +12,7 @@
   <%= render partial: "shared/flash", flash: flash %>
 
   <div class="row">
-    <% @friends.each do |friend| %>
+    <% if @friends.each do |friend| %>
       <div class="col-md-3 mb-4">
         <%= link_to friend, class: 'link-clean' do %>
           <div class="card">
@@ -36,6 +36,13 @@
             </div>
           </div>
         <% end %>
+      </div>
+    <% end.empty? %>
+      <div class="container-fluid text-center">
+        <h4 class="mt-3 text-muted">Aucun ami ajouté</h4>
+        <p class="my-1">
+          <%= link_to 'En ajouter un ?', new_friend_path %>
+        </p>
       </div>
     <% end %>
   </div>
