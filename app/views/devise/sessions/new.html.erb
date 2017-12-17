@@ -1,25 +1,31 @@
-<h2>Log in</h2>
+<h2>Connexion</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true %>
+  <div class="form-group">
+    <%= f.label :email, "Email", class: "font-weight-bold" %>
+    <%= f.email_field :email, autofocus: true, placeholder: "Email", class: "form-control" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password %><br />
-    <%= f.password_field :password, autocomplete: "off" %>
+  <div class="form-group">
+    <%= f.label :password, "Mot de passe", class: "font-weight-bold" %>
+    <%= f.password_field :password, autocomplete: "off", placeholder: "Mot de passe", class: "form-control" %>
   </div>
 
   <% if devise_mapping.rememberable? -%>
-    <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+    <div class="form-group">
+      <label class="custom-control custom-checkbox">
+        <%= f.check_box :remember_me, class: "custom-control-input" %>
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">
+          <%= f.label :remember_me, "Se rappeler de moi", class: "font-weight-bold" %>
+        </span>
+      </label>
     </div>
   <% end -%>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= link_to "Retour", :back, class: "btn btn-outline-secondary" %>
+    <%= f.submit "Connexion", class: "btn btn-primary" %>
   </div>
 <% end %>
 

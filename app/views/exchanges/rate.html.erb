@@ -1,37 +1,44 @@
-<p id="notice"><%= notice %></p>
 
-<h1>Noter l'échange</h1>
-
-<% if @exchange.errors.any? %>
-<div id="error_explanation">
-    <h2><%= pluralize(@exchange.errors.count, "erreur") %> à corriger:</h2>
-
-    <ul>
-    <% @exchange.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-    <% end %>
-    </ul>
-</div>
-<% end %>
-
-Que dire sur  <%= @friend.first_name %> ?
-
-<%= form_tag(exchanges_post_rate_path) do %>
-  <%= hidden_field(nil, :id, :value => @exchange.id) %>
-
-  <div class="field">
-    <%= label_tag :tags, "Tags" %>
-
-    <%# prevent errors if no checkbox are checked %>
-    <%= hidden_field(nil, 'exchange[tag_relations_attributes][]', value: '') %>
-    <%=
-      collection_check_boxes(nil, :tag_id, Tag.all, :id, :label_male, { include_hidden: false }) do |b|
-        b.label {
-          b.check_box(name: 'exchange[tag_relations_attributes][][tag_id]') + ' ' + b.text
-        }
-      end
-    %>
+<div class="header header-4">
+  <div class="container">
+    <h1>Noter l'échange</h1>
   </div>
+</div>
 
-  <%= submit_tag "Valider" %>
-<% end %>
+<div class="container mt-5">
+  <%= render partial: "shared/flash", flash: flash %>
+
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <%= errors_for @exchange %>
+
+      <div class="text-center">
+        <h3>Que dire sur <%= @friend.first_name %> ?</h3>
+      </div>
+
+      <%= form_tag(exchanges_post_rate_path) do %>
+        <%= hidden_field(nil, :id, :value => @exchange.id) %>
+
+        <div class="form-check form-check-inline">
+          <%# prevent errors if no checkbox are checked %>
+          <%= hidden_field(nil, 'exchange[tag_relations_attributes][]', value: '') %>
+          <%= collection_check_boxes(nil, :tag_id, Tag.all, :id, :label_male, { include_hidden: false }) do |b| %>
+            <label class="custom-control custom-checkbox">
+              <%= b.check_box(class: "custom-control-input", name: "exchange[tag_relations_attributes][][tag_id]") %>
+              <span class="custom-control-indicator"></span>
+              <span class="custom-control-description">
+                <%= b.text %>
+              </span>
+            </label>
+          <% end %>
+          <small class="form-text text-muted">Choisissez entre 2 et 5 tags</small>
+        </div>
+
+        <div class="text-center">
+          <%= submit_tag "Valider", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

@@ -1,7 +1,13 @@
-<h1>Modifier un copain</h1>
 
-<%= render 'form', friend: @friend, mode: :edit %>
+<div class="header header-2">
+  <div class="container">
+    <h1>Modifier: <%= @friend.first_name %></h1>
+    <p class="text-uppercase m-0"><%= link_to "Voir l'annonce", @friend, class: 'link-clean' %></p>
+  </div>
+</div>
 
-<%= link_to "Voir l'annonce", @friend %> |
-<%= link_to 'Mes annonces', friends_path %> |
-<%= link_to 'Accueil', root_path %>
+<div class="container mt-5">
+  <%= render partial: "shared/flash", flash: flash %>
+
+  <%= render 'form', friend: @friend, mode: :edit %>
+</div>

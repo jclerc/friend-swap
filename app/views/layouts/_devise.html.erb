@@ -1,0 +1,14 @@
+
+<div class="container-fluid height-100">
+  <div class="row height-100">
+    <% i = rand(1..2) %>
+    <div class="col-md-5 height-100 devise-background devise-background-<%= i %> d-none d-md-block"></div>
+    <div class="col-md-5 height-100 devise-background devise-background-<%= i %> devise-header d-block d-md-none"></div>
+    <div class="col-md-7 height-100 devise-wrapper">
+      <div class="devise-content">
+        <%= render partial: "shared/flash", flash: flash %>
+        <%= yield %>
+      </div>
+    </div>
+  </div>
+</div>

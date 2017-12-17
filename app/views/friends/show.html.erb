@@ -1,72 +1,113 @@
-<p id="notice"><%= notice %></p>
 
-<p>
-  <%= image_tag @friend.avatar.url(:thumb) %>
-  <br>
-  Voir en grand: <%= link_to 'avatar', @friend.avatar.url(:original) %>
-</p>
+<div class="header header-5"></div>
 
-<p>
-  <strong>Prénom:</strong>
-  <%= @friend.first_name %>
-</p>
+<div class="container img-profile-container">
 
-<p>
-  <strong>Anniversaire:</strong>
-  <%= @friend.birthday %>
-</p>
+  <div class="img-profile-header">
+    <%= link_to @friend.avatar.url(:original), target: '_blank' do %>
+      <%= image_tag @friend.avatar.url(:thumb), class: 'img-profile-img img-thumbnail' %>
+    <% end %>
+  </div>
 
-<p>
-  <strong>Genre:</strong>
-  <%= @friend.is_male ? 'Homme' : 'Femme' %>
-</p>
+</div>
 
-<p>
-  <strong>Description:</strong>
-  <%= @friend.description %>
-</p>
+<div class="container text-center img-profile-content">
 
-<p>
-  <strong>Ville:</strong>
-  <%= @friend.city.name %>
-</p>
+  <h2><%= @friend.first_name %></h2>
 
-<p>
-  <strong>Tags:</strong>
-  <%= @friend.tags_sorted.map { |x| "#{x[0].label @friend} #{x[1]}" }.join ', ' %>
-</p>
+  <p class="mb-1">
+    <em>
+      <%= age @friend.birthday %> ans,
+      <%= @friend.is_male ? 'homme' : 'femme' %>,
+      à <%= @friend.city.name %>
+    </em>
+  </p>
 
-<p>
-  <strong>Échanges:</strong>
-  <%= @friend.exchanges.size %>
-</p>
+  <p class="mb-1">
+    <% if @friend.user == current_user %>
+      <%= link_to 'Modifier', edit_friend_path(@friend), class: 'btn btn-success' %>
+    <% else %>
+      <% if !user_signed_in? %>
+        <%= link_to "Connexion", new_user_session_path, class: 'btn btn-primary' %>
+      <% elsif @can_exchange %>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#exchange-modal">
+          Échanger
+        </button>
+      <% elsif current_user.friends.empty? %>
+        <button class="btn btn-outline-primary" disabled>
+          Aucun ami à échanger
+        </button>
+      <% elsif @friend.available? %>
+        <button class="btn btn-outline-primary" disabled>
+          Aucun ami disponible
+        </button>
+      <% else %>
+        <button class="btn btn-outline-primary" disabled>
+          Déjà en échange
+        </button>
+      <% end %>
 
-
-<p>
-  <strong>Disponible:</strong>
-  <%= @friend.available? %>
-</p>
-
-<p>
-  <em>Ajouté par:</em>
-  <%= @friend.user.email %>
-</p>
-
-<% if @can_exchange %>
-  <p>
-    <strong>Échanger contre: </strong>
-    <% @friends_to_exchange.each do |f| %>
-      <%= link_to "#{f.first_name}", exchanges_new_path(
-        friend_id: f.id,
-        other_id: @friend.id
-      ) %>
+      <% if current_user.try(:is_admin) %>
+        <%= link_to 'Modifier', edit_friend_path(@friend), class: 'btn btn-success' %>
+      <% end %>
     <% end %>
   </p>
-<% end %>
 
-<% if current_user == @friend.user || current_user.try(:is_admin) %>
-  <%= link_to 'Modifier', edit_friend_path(@friend) %> |
-  <%= link_to 'Mes annonces', friends_path %> |
-<% end %>
+  <p class="mb-1"><%= @friend.exchanges.size %> échanges à son actif</p>
 
-<%= link_to 'Accueil', root_path %>
+  <h5 class="mt-4">À propos:</h5>
+  <p>
+    <%= @friend.description %>
+  </p>
+
+  <h5 class="mt-4">Tags:</h5>
+  <% @friend.tags_sorted.each do |tag| %>
+    <p class="m-0">
+      <big><%= tag.second %></big>
+      personne<%= tag.second > 1 ? "s l'ont" : " l'a" %>
+      désigné<%= @friend.is_male ? '' : 'e' %>
+      comme
+      <span class="font-weight-bold"><%= tag.first.label(@friend).downcase %></span>
+    </p>
+  <% end %>
+
+  <p class="mt-3">
+    <em>Ajouté<%= @friend.is_male ? '' : 'e' %> par:</em>
+    <%= @friend.user.email %>
+  </p>
+</div>
+
+<% if @can_exchange %>
+  <div class="modal fade" id="exchange-modal" tabindex="-1" role="dialog" aria-labelledby="exchange-modal-label" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exchange-modal-label">Échanger contre..</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+            <% @friends_to_exchange.each do |f| %>
+              <div class="col-md-4 text-center my-1">
+                <%= link_to exchanges_new_path(
+                  friend_id: f.id,
+                  other_id: @friend.id
+                ), class: 'link-clean' do %>
+                  <%= image_tag f.avatar.url(:thumb), class: 'img-thumbnail' %>
+                  <%= f.first_name %>
+                <% end %>
+              </div>
+            <% end %>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,14 @@
+
+<% unless defined? @flash_rendered %>
+  <% @flash_rendered = true %>
+
+  <div class="alerts alerts-<%= local_assigns[:mode] || 'default' %>">
+    <% flash.each do |type, message| %>
+      <div class="alert <%= bootstrap_class_for(type) %> fade show alert-dismissible">
+        <button class="close" data-dismiss="alert">×</button>
+        <%= message %>
+      </div>
+    <% end %>
+  </div>
+
+<% end %>

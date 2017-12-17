@@ -8,9 +8,7 @@ class ExchangesController < ApplicationController
 
   def index
     friends = current_user.friends
-    @exchanges = Exchange.where(friend1_id: friends)
-                         .or(Exchange.where(friend2_id: friends))
-                         .order(updated_at: :desc)
+    @exchanges = Exchange.of_friend(friends).latest
     @exchanges_active = []
     @exchanges_past = []
     @exchanges.each do |exchange|
@@ -22,18 +20,18 @@ class ExchangesController < ApplicationController
     # From get params
     @friend = Friend.find(params[:friend_id])
     @other = Friend.find(params[:other_id])
-    check_exchange_author
+    check_exchange_author && return
     @exchange = Exchange.new
   end
 
   def create
     # From post params
-    @friend = Friend.find_by_id(params[:exchange][:friend1_id])
-    @other = Friend.find_by_id(params[:exchange][:friend2_id])
-    check_exchange_author
+    @friend = Friend.find_by_id(params[:exchange][:friend_initier_id])
+    @other = Friend.find_by_id(params[:exchange][:friend_receiver_id])
+    check_exchange_author && return
     @exchange = Exchange.new(exchange_params_create)
     if @exchange.save
-      redirect_to exchanges_url, notice: 'Ajout avec succès !'
+      redirect_to exchanges_url, notice: "L'échange a débuté !"
     else
       render :new
     end
@@ -60,7 +58,7 @@ class ExchangesController < ApplicationController
     @friend = distinct_friends(@exchange).second
 
     if @exchange.update(exchange_params_rate)
-      redirect_to exchanges_path, notice: 'Informations sauvegardés !'
+      redirect_to exchanges_path, notice: 'Notation sauvegardée !'
     else
       render :rate
     end
@@ -93,7 +91,7 @@ class ExchangesController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def exchange_params_create
     params.require(:exchange)
-          .permit(:friend1_id, :friend2_id)
+          .permit(:friend_receiver_id, :friend_initier_id)
           .merge(is_active: true)
   end
 

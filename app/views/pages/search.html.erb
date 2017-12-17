@@ -1,26 +1,40 @@
-<h1>Pages#search</h1>
-<p>Find me in app/views/pages/search.html.erb</p>
 
-<table>
-  <thead>
-    <tr>
-      <th>First name</th>
-      <th>Birthday</th>
-      <th>Is male</th>
-      <th>Description</th>
-      <th></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @results.limit(50).each do |friend| %>
-      <tr>
-        <td><%= friend.first_name %></td>
-        <td><%= friend.birthday %></td>
-        <td><%= friend.is_male %></td>
-        <td><%= friend.description %></td>
-        <td><%= link_to 'Show', friend %></td>
-      </tr>
+<div class="header header-1">
+  <div class="container">
+    <h1>Votre recherche</h1>
+    <% if @tags.present? %>
+      <p class="text-uppercase m-0">
+        Tags: <%= @tags.map { |tag| tag.label_male }.join ', ' %>
+      </p>
     <% end %>
-  </tbody>
-</table>
+    <p class="text-uppercase m-0">
+      À: <%= @city.name %>
+    </p>
+  </div>
+</div>
+
+<div class="container mt-5">
+
+  <div class="row">
+    <% if @results.limit(50).each do |friend| %>
+      <div class="col-md-3 mb-4">
+        <%= link_to friend, class: 'link-clean' do %>
+          <div class="card">
+            <%= image_tag friend.avatar.url(:thumb), class: 'img-fluid' %>
+            <div class="card-body">
+              <h4 class="m-0 tag-text"><%= friend.first_name %><small class="text-muted">, <%= age friend.birthday %></small></h4>
+              <% friend.tags_sorted[0...3].each do |tag| %>
+                <span class="badge badge-info"><%= tag.second %>x <%= tag.first.label friend %></span>
+              <% end %>
+              <p class="m-0 tag-text"><%= truncate(friend.description, length: 30) %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end.empty? %>
+      <div class="container-fluid">
+        <h3>Aucun résultat...</h3>
+      </div>
+    <% end %>
+  </div>
+</div>

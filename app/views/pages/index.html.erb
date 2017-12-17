@@ -1,53 +1,54 @@
-<h1>Pages#index</h1>
-<p>Find me in app/views/pages/index.html.erb</p>
 
-<% unless user_signed_in? %>
-    <%= link_to 'Inscription', new_user_registration_path %>
-    <%= link_to 'Identification', new_user_session_path %>
-<% else %>
-    <%= link_to 'Compte', edit_user_registration_path %>
-    <%= link_to 'Déconnexion', destroy_user_session_path, method: :delete %>
-<% end %>
+<div class="header header-lg">
+  <div class="container">
+    <h1>Vous voulez être à leur place ?</h1>
+    <p class="text-uppercase">Découvrez le bon copain —</p>
+  </div>
+</div>
 
-<hr>
+<div class="container">
+  <h3 class="mt-5 mb-3">Explorer le bon copain</h3>
 
-<h2>Search</h2>
+  <div class="row">
+    <% @tags_by_city.each do |tag| %>
+      <div class="col-md-3">
+        <%= link_to search_get_path(
+          city_name: tag.city_name.parameterize, city: tag.city_id,
+          tag_name: tag.label_male.parameterize, tag: tag.id
+        ), class: 'link-clean' do %>
+          <div class="tag-card mb-3" style="background-image: url('<%= asset_path "tags/#{tag.label_male.parameterize}.jpg" %>')">
+            <div class="tag-gradient"></div>
+            <div class="tag-content p-3">
 
-<%# search_post %>
-<%= form_tag(search_post_path) do %>
-  <%=
-    collection_check_boxes(nil, :tags, Tag.all, :id, :label_male) do |b|
-      b.label { b.check_box + ' ' + b.text }
-    end
-  %>
-  <br>
-  <%=
-    collection_radio_buttons(nil, :city, City.all, :id, :name, {}, { required: true }) do |b|
-      b.label { b.radio_button + ' ' + b.text }
-    end
-  %>
-  <%= submit_tag("Search") %>
-<% end %>
+              <h3 class="m-0 tag-text">#<%= tag.label_male.downcase %></h3>
+              <p class="m-0 tag-text"><%= tag.count %> amis ont ce tags à <%= tag.city_name %></p>
 
-<hr>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
-<h2>Best tags by city</h2>
+  <h3 class="mt-4 mb-3">Amis du moment</h3>
 
-<% @tags_by_city.each do |tag| %>
-  <%= link_to "#{tag.label_male} (#{tag.count}) - #{tag.city_name}", search_get_path(
-    city_name: tag.city_name.parameterize, city: tag.city_id,
-    tag_name: tag.label_male.parameterize, tag: tag.id
-  ) %>
-<% end %>
+  <div class="row">
+    <% @most_traded.limit(20).each do |friend| %>
+      <div class="col-md-3 mb-4">
+        <%= link_to friend, class: 'link-clean' do %>
+          <div class="card">
+            <%= image_tag friend.avatar.url(:thumb), class: 'img-fluid' %>
+            <div class="card-body">
+              <h4 class="m-0 tag-text"><%= friend.first_name %></h4>
+              <% friend.tags_sorted[0...3].each do |tag| %>
+                <span class="badge badge-info"><%= tag.second %>x <%= tag.first.label friend %></span>
+              <% end %>
+              <p class="m-0 tag-text">Échangé <%= friend.exchanges_count %> fois</p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
 
-<hr>
-
-<h2>Most traded</h2>
-
-<% @most_traded.limit(20).each do |friend| %>
-  <p>
-    <%= friend.first_name %>,
-    <%= friend.exchanges_count %>,
-    <td><%= link_to 'Show', friend %></td>
-  </p>
-<% end %>
+</div>

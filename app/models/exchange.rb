@@ -1,12 +1,19 @@
 class Exchange < ApplicationRecord
   include ExchangesHelper
 
-  belongs_to :friend1, class_name: 'Friend', foreign_key: 'friend1_id'
-  belongs_to :friend2, class_name: 'Friend', foreign_key: 'friend2_id'
+  belongs_to :friend_initier, class_name: 'Friend', foreign_key: 'friend_initier_id'
+  belongs_to :friend_receiver, class_name: 'Friend', foreign_key: 'friend_receiver_id'
   has_many :tag_relations, inverse_of: :exchange
 
+  scope :latest, -> { order updated_at: :desc }
+  scope :active, ->(active = true) { where is_active: active }
+  scope :of_friend, (lambda do |friend|
+    where(friend_initier_id: friend)
+      .or(Exchange.where(friend_receiver_id: friend))
+  end)
+
   def friends
-    [friend1, friend2]
+    [friend_initier, friend_receiver]
   end
 
   def user_rated?(user)
@@ -17,10 +24,15 @@ class Exchange < ApplicationRecord
     tag_relations.where(friend: friend).any?
   end
 
+  # AUTO-UPDATE FIELDS
+
+  before_create :set_start_date
+  before_save :set_end_date
+
   # VALIDATION
 
-  validates :friend1_id, presence: true
-  validates :friend2_id, presence: true
+  validates :friend_initier_id, presence: true
+  validates :friend_receiver_id, presence: true
 
   validate :check_different
   validate :check_owner
@@ -30,12 +42,24 @@ class Exchange < ApplicationRecord
 
   accepts_nested_attributes_for :tag_relations
 
+  # PRIVATE METHODS
+
+  private
+
+  def set_start_date
+    self.start_date = Time.now unless start_date
+  end
+
+  def set_end_date
+    self.end_date = Time.now unless is_active? || end_date
+  end
+
   def check_different
-    errors.add(:base, "Impossible d'échanger un ami contre lui même") unless friend1.id != friend2.id
+    errors.add(:base, "Impossible d'échanger un ami contre lui même") unless friend_initier.id != friend_receiver.id
   end
 
   def check_available
-    errors.add(:base, "Un des amis n'est pas disponible") unless friend1.available? && friend2.available?
+    errors.add(:base, "Un des amis n'est pas disponible") unless friend_initier.available? && friend_receiver.available?
   end
 
   def check_unavailable
@@ -43,7 +67,7 @@ class Exchange < ApplicationRecord
   end
 
   def check_owner
-    errors.add(:base, "Impossible d'échanger deux amis du même utilisateur") unless friend1.user.id != friend2.user.id
+    errors.add(:base, "Impossible d'échanger deux amis du même utilisateur") unless friend_initier.user.id != friend_receiver.user.id
   end
 
   def check_tags_count
