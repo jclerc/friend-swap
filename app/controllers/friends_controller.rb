@@ -65,6 +65,11 @@ class FriendsController < ApplicationController
     @friend = Friend.find(params[:id])
   end
 
+  def require_owner
+    # should not happen, so an alert is not necessary
+    redirect_to root_path if current_user != @friend.user && !current_user.is_admin
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def friend_params_create
     params.require(:friend)
@@ -74,10 +79,5 @@ class FriendsController < ApplicationController
 
   def friend_params_update
     params.require(:friend).permit(:avatar, :description, :disabled)
-  end
-
-  def require_owner
-    # should not happen, so an alert is not necessary
-    redirect_to root_path if current_user != @friend.user && !current_user.is_admin
   end
 end

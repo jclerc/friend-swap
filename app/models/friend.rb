@@ -76,6 +76,10 @@ class Friend < ApplicationRecord
 
   accepts_nested_attributes_for :tag_relations
 
+  # PRIVATE METHODS
+
+  private
+
   def disable_while_exchanged
     errors.add(:disabled, ': impossible de désactiver pendant un échange en cours') if disabled && !available?
   end

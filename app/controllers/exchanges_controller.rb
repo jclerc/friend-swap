@@ -7,6 +7,7 @@ class ExchangesController < ApplicationController
   before_action :authenticate_user!
 
   def index
+    # List exchanges of user
     friends = current_user.friends
     @exchanges = Exchange.of_friend(friends).latest
     @exchanges_active = []
@@ -17,7 +18,7 @@ class ExchangesController < ApplicationController
   end
 
   def new
-    # From get params
+    # Get friends from GET params
     @friend = Friend.find(params[:friend_id])
     @other = Friend.find(params[:other_id])
     check_exchange_author && return
@@ -25,7 +26,7 @@ class ExchangesController < ApplicationController
   end
 
   def create
-    # From post params
+    # Get friends from POST params
     @friend = Friend.find_by_id(params[:exchange][:friend_initier_id])
     @other = Friend.find_by_id(params[:exchange][:friend_receiver_id])
     check_exchange_author && return
