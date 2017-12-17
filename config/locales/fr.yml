@@ -1,6 +1,25 @@
 ---
 fr:
   activerecord:
+    models:
+      city: Ville
+      exchange: Échange
+      friend: Ami
+      tag_relation: Tag
+      tag: Tag
+      user: Utilisateur
+    attributes:
+      user:
+        email: "L'email"
+        password: "Le mot de passe"
+        current_password: "Le mot de passe actuel"
+        first_name: "Le prénom"
+        phone: "Le téléphone"
+      friend:
+        avatar: "L'avatar"
+        first_name: "Le prénom"
+        description: "La description"
+        disabled: "Désactivé"
     errors:
       messages:
         record_invalid: 'La validation a échoué : %{errors}'

@@ -58,7 +58,7 @@ class ExchangesController < ApplicationController
     @friend = distinct_friends(@exchange).second
 
     if @exchange.update(exchange_params_rate)
-      redirect_to exchanges_path, notice: 'Notation sauvegardé !'
+      redirect_to exchanges_path, notice: 'Notation sauvegardée !'
     else
       render :rate
     end

@@ -24,18 +24,29 @@
   </p>
 
   <p class="mb-1">
-    <% if !user_signed_in? %>
-      <%= link_to "Connexion", new_user_session_path, class: 'btn btn-primary' %>
-    <% elsif @can_exchange %>
-      <button class="btn btn-primary" data-toggle="modal" data-target="#exchange-modal">
-        Échanger
-      </button>
-    <% elsif current_user == @friend.user %>
+    <% if @friend.user == current_user %>
       <%= link_to 'Modifier', edit_friend_path(@friend), class: 'btn btn-success' %>
     <% else %>
-      <button class="btn btn-outline-primary" disabled>
-        Indisponible
-      </button>
+      <% if !user_signed_in? %>
+        <%= link_to "Connexion", new_user_session_path, class: 'btn btn-primary' %>
+      <% elsif @can_exchange %>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#exchange-modal">
+          Échanger
+        </button>
+      <% elsif current_user.friends.empty? %>
+        <button class="btn btn-outline-primary" disabled>
+          Aucun ami à échanger
+        </button>
+      <% elsif @friend.available? %>
+        <button class="btn btn-outline-primary" disabled>
+          Aucun ami disponible
+        </button>
+      <% else %>
+        <button class="btn btn-outline-primary" disabled>
+          Déjà en échange
+        </button>
+      <% end %>
+
       <% if current_user.try(:is_admin) %>
         <%= link_to 'Modifier', edit_friend_path(@friend), class: 'btn btn-success' %>
       <% end %>
