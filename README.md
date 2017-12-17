@@ -1,24 +1,47 @@
-# README
+# LeBonCopain
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Trade a friend against another!
 
-Things you may want to cover:
+## Demo
 
-* Ruby version
+Try it here: **[https://hetic-g2-4.herokuapp.com/](https://hetic-g2-4.herokuapp.com/)**
 
-* System dependencies
+Credentials:
+- admin email: **test@test**, password: **test@test**
+- any user password: **test@test** (see their email at the bottom of any friend page)
 
-* Configuration
+## Features
 
-* Database creation
+- Discover the best friends or popular tags
+- Search friends by tags/city
+- Add, edit and manage your friends
+- Start an exchange, end it and rate the friend
 
-* Database initialization
+## Stack used
 
-* How to run the test suite
+- [Ruby](https://www.ruby-lang.org/) 2.4.2
+- [Rails](http://rubyonrails.org/) 5.1.4
+- [Devise](https://github.com/plataformatec/devise) 4.3.0
+- Database:
+  - development: [SQLite](https://www.sqlite.org/)
+  - production: [PostgreSQL](https://www.postgresql.org/)
+- Avatars: [paperclip](https://github.com/thoughtbot/paperclip) with [AWS S3](https://aws.amazon.com/s3/)
 
-* Services (job queues, cache servers, search engines, etc.)
+## Getting started
 
-* Deployment instructions
+```bash
+# clone project - approx. 25mb
+git clone https://github.com/JClerc/RuBnB.git
+# go into project directory
+cd RuBnB
+# install dependencies
+bundle install
+# create database and fill it (can take some time)
+rake db:setup db:seed
+# start server
+rails server
+```
 
-* ...
+## Need help?
+
+Create an [issue](https://github.com/JClerc/RuBnB/issues)!
