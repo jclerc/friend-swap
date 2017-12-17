@@ -5,7 +5,7 @@
   <%= f.hidden_field :reset_password_token, placeholder: "reset_password_token", class: "form-control" %>
 
   <div class="form-group">
-    <%= f.label :password, "password", class: "font-weight-bold", "Nouveau mot de passe" %>
+    <%= f.label :password, "Nouveau mot de passe", class: "font-weight-bold" %>
     <%= f.password_field :password, autofocus: true, autocomplete: "off", placeholder: "Mot de passe", class: "form-control" %>
     <% if @minimum_password_length %>
       <small class="form-text text-muted"><%= @minimum_password_length %> caractères minimum</small>
