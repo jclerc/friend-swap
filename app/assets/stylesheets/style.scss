@@ -1,5 +1,10 @@
 
+html {
+  height: 100%;
+}
+
 body {
+  min-height: 100%;
   padding-top: 70px;
 }
 
@@ -8,9 +13,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .type-devise {
-  &, & body {
-    height: 100%;
-  }
+  height: 100%;
+
   .height-100 {
     height: 100%;
 
@@ -25,6 +29,10 @@ h1, h2, h3, h4, h5, h6 {
     .devise-background {
       background-size: cover;
       background-position: center;
+
+      &.devise-header {
+        height: 100px;
+      }
 
       @for $i from 1 through 2 {
         &.devise-background-#{$i} {

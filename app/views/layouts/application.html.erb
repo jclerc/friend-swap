@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="type-<%= @type %>">
+<html>
   <head>
     <title>LeBonCopain</title>
     <meta charset="utf-8">
@@ -9,7 +9,7 @@
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="type-<%= @type %>">
     <%= render partial: "shared/navbar" %>
 
     <%= render partial: "shared/flash", flash: flash %>
