@@ -1,22 +1,47 @@
-<h1>Nouvel échange</h1>
 
-<% if @exchange.errors.any? %>
-<div id="error_explanation">
-    <h2><%= pluralize(@exchange.errors.count, "erreur") %> à corriger:</h2>
-
-    <ul>
-    <% @exchange.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-    <% end %>
-    </ul>
+<div class="header header-4">
+  <div class="container">
+    <h1>Nouvel échange</h1>
+  </div>
 </div>
-<% end %>
 
-<%= form_tag(exchanges_create_path) do %>
-  Échanger: <%= @friend.first_name %> contre <%= @other.first_name %> ?
+<div class="container mt-5">
 
-  <%= hidden_field(:exchange, :friend_initier_id, :value => @friend.id) %>
-  <%= hidden_field(:exchange, :friend_receiver_id, :value => @other.id) %>
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <%= errors_for @exchange %>
 
-  <%= submit_tag "C'est parti" %>
-<% end %>
+      <div class="text-center">
+        <h3>Échanger</h3>
+      </div>
+
+      <div class="card bg-light my-3">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col-sm-4">
+              <%= image_tag @friend.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+              <%= @friend.first_name %>
+            </div>
+            <div class="col-sm-4">
+              <h5 class="mt-5">contre</h5>
+            </div>
+            <div class="col-sm-4">
+              <%= image_tag @other.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+              <%= @other.first_name %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%= form_tag(exchanges_create_path) do %>
+        <%= hidden_field(:exchange, :friend_initier_id, :value => @friend.id) %>
+        <%= hidden_field(:exchange, :friend_receiver_id, :value => @other.id) %>
+        <div class="text-center">
+          <%= link_to "Annuler", @other, class: "btn btn-outline-secondary" %>
+          <%= submit_tag "C'est parti !", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>

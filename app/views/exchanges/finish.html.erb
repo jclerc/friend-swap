@@ -1,22 +1,48 @@
-<h1>Terminer l'échange</h1>
 
-<% friend, other = distinct_friends @exchange %>
-
-Reprendre <%= friend.first_name %> et renvoyer <%= other.first_name %> ?
-
-<% if @exchange.errors.any? %>
-<div id="error_explanation">
-    <h2><%= pluralize(@exchange.errors.count, "erreur") %> à corriger:</h2>
-
-    <ul>
-    <% @exchange.errors.full_messages.each do |message| %>
-    <li><%= message %></li>
-    <% end %>
-    </ul>
+<div class="header header-4">
+  <div class="container">
+    <h1>Terminer l'échange</h1>
+  </div>
 </div>
-<% end %>
 
-<%= form_tag(exchanges_post_finish_path) do %>
-  <%= hidden_field(nil, :id, :value => @exchange.id) %>
-  <%= submit_tag "C'est terminé" %>
-<% end %>
+<div class="container mt-5">
+  <% friend, other = distinct_friends @exchange %>
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <%= errors_for @exchange %>
+
+      <div class="text-center">
+        <h3>C'est fini ?</h3>
+      </div>
+
+      <div class="card bg-light my-3">
+        <div class="card-body text-center">
+          <div class="row">
+            <div class="col-sm-4">
+              Reprendre
+              <%= image_tag friend.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+              <%= friend.first_name %>
+            </div>
+            <div class="col-sm-4">
+              <h5 class="mt-5">et</h5>
+            </div>
+            <div class="col-sm-4">
+              Renvoyer
+              <%= image_tag other.avatar.url(:thumb), class: 'img-fluid img-thumbnail' %>
+              <%= other.first_name %>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <%= form_tag(exchanges_post_finish_path) do %>
+        <%= hidden_field(nil, :id, :value => @exchange.id) %>
+        <div class="text-center">
+          <%= link_to "Pas encore", exchanges_path, class: "btn btn-outline-secondary" %>
+          <%= submit_tag "Fin de parcours", class: "btn btn-primary" %>
+        </div>
+      <% end %>
+
+    </div>
+  </div>
+</div>
