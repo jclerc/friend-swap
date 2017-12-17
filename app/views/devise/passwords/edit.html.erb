@@ -1,24 +1,25 @@
-<h2>Change your password</h2>
+<h2>Changer le mot de passe</h2>
 
 <%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :reset_password_token %>
+  <%= errors_for resource %>
+  <%= f.hidden_field :reset_password_token, placeholder: "reset_password_token", class: "form-control" %>
 
-  <div class="field">
-    <%= f.label :password, "New password" %><br />
+  <div class="form-group">
+    <%= f.label :password, "password", class: "font-weight-bold", "Nouveau mot de passe" %>
+    <%= f.password_field :password, autofocus: true, autocomplete: "off", placeholder: "Mot de passe", class: "form-control" %>
     <% if @minimum_password_length %>
-      <em>(<%= @minimum_password_length %> characters minimum)</em><br />
+      <small class="form-text text-muted"><%= @minimum_password_length %> caractères minimum</small>
     <% end %>
-    <%= f.password_field :password, autofocus: true, autocomplete: "off" %>
   </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation, "Confirm new password" %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "off" %>
+  <div class="form-group">
+    <%= f.label :password_confirmation, "Confirmation", class: "font-weight-bold" %>
+    <%= f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirmation", class: "form-control" %>
   </div>
 
   <div class="actions">
-    <%= f.submit "Change my password" %>
+    <%= link_to "Retour", :back, class: "btn btn-outline-secondary" %>
+    <%= f.submit "Mettre à jour", class: "btn btn-primary" %>
   </div>
 <% end %>
 
