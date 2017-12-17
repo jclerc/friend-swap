@@ -1,22 +1,37 @@
-
-$(function () {
+$(function() {
   var items = $('.search-city, .search-tag');
-  var normalize = function (text) {
+  var counter = 0;
+  var elementSaver;
+  var normalize = function(text) {
     return text.normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/ /g, '').toLowerCase()
   }
 
   $('.search-form').on('keyup', function() {
     var search = normalize($(this).val());
-    
-    items.each( function() {
+    counter = 0;
+    items.each(function() {
       var $this = $(this);
       var text = normalize($this.find('.custom-control-description').text());
       if (text.search(search) > -1) {
         $this.show();
+        counter += 1;
+        elementSaver = $this;
       } else {
         $this.hide();
       };
-    })
+    });
+  });
+
+  $('.search-form').on('keydown', function(element) {
+    if (element.keyCode == 13 && counter == 1) {
+      elementSaver.find('input').prop('checked', true);
+      $('.search-form').val('').focus();
+      items.show();
+    };
+  });
+
+  $('.search-reset').on('click', function() {
+    $('.search-form').val('').focus();
+    items.show();
   });
 });
-
