@@ -1,4 +1,4 @@
-$(function () {
+$(document).on('turbolinks:load', function () {
   var items = $('.search-city, .search-tag');
   var counter = 0;
   var elementSaver;
