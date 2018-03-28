@@ -1,39 +1,48 @@
-# LeBonCopain
+<h1 align="center">
+  <img alt="friend-swap" width="652" src="https://jclerc.github.io/assets/repos/banner/friend-swap.jpg">
+  <br>
+</h1>
 
-Trade a friend against another!
+<p align="center">
+  <img alt="made for: school" src="https://jclerc.github.io/assets/static/badges/made-for/school.svg">
+  <img alt="language: ruby" src="https://jclerc.github.io/assets/static/badges/language/ruby.svg">
+  <img alt="made in: 2017" src="https://jclerc.github.io/assets/static/badges/made-in/2017.svg">
+  <br>
+  <sub>Marketplace for friends: trade yours against another!</sub>
+</p>
+<br>
 
-## Demo
+## Live demo
 
-Try it here: **[https://hetic-g2-4.herokuapp.com/](https://hetic-g2-4.herokuapp.com/)**
-
-Credentials:
-- admin email: **test@test**, password: **test@test**
-- any user password: **test@test** (see their email at the bottom of any friend page)
+See the project here: [friendswap.herokuapp.com](https://friendswap.herokuapp.com/)
 
 ## Features
 
-- Discover the best friends or popular tags
-- Search friends by tags/city
-- Add, edit and manage your friends
-- Start an exchange, end it and rate the friend
+- [x] Discover the best friends or popular tags
+- [x] Search friends by tags/city
+- [x] Add, edit and manage your friends
+- [x] Start an exchange, end it and rate the friend
 
 ## Stack used
 
-- [Ruby](https://www.ruby-lang.org/) 2.4.2
-- [Rails](http://rubyonrails.org/) 5.1.4
-- [Devise](https://github.com/plataformatec/devise) 4.3.0
-- Database:
-  - development: [SQLite](https://www.sqlite.org/)
-  - production: [PostgreSQL](https://www.postgresql.org/)
-- Avatars: [paperclip](https://github.com/thoughtbot/paperclip) with [AWS S3](https://aws.amazon.com/s3/)
+- Devise `4.3.0`
+- Paperclip `5.1.0`
+- Rails `5.1.4`
+- Ruby `2.4.2`
 
 ## Getting started
 
-```bash
-# clone project - approx. 25mb
-git clone https://github.com/JClerc/RuBnB.git
-# go into project directory
-cd RuBnB
+#### Requirements
+
+- `bundler`
+- `rails`
+- Ruby 2.4+
+
+#### Installation
+
+```sh
+git clone https://github.com/jclerc/friend-swap.git
+cd friend-swap
 # install dependencies
 bundle install
 # create database and fill it (can take some time)
@@ -42,6 +51,8 @@ rake db:setup db:seed
 rails server
 ```
 
-## Need help?
+## Notes
 
-Create an [issue](https://github.com/JClerc/RuBnB/issues)!
+- Credentials on demo site are:
+  - admin email: **test@test**, password: **test@test**
+  - any user password: **test@test** (and see their email at the bottom of any friend page)
